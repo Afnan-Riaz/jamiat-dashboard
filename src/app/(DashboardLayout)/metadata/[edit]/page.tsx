@@ -13,6 +13,7 @@ import {
 import BaseCard from "@/app/(DashboardLayout)/components/shared/BaseCard";
 import mongoose from "mongoose";
 import Loading from "@/app/loading";
+import { useRouter } from "next/navigation";
 
 interface Page {
     _id: object;
@@ -54,6 +55,7 @@ export default function Edit({ params }: any) {
         page_title: "",
         content: "",
     });
+    const router = useRouter();
     const editorRef = useRef<any>(null);
     const [snackbar, setSnackbar] = React.useState<Pick<
         AlertProps,
@@ -87,6 +89,9 @@ export default function Edit({ params }: any) {
                 children: "Page successfully Saved.",
                 severity: "success",
             });
+            setTimeout(() => {
+                router.push("/metadata");
+            }, 3000);
         } catch (error) {
             setIsLoaded(true);
 

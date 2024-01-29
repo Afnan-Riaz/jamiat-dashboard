@@ -89,7 +89,6 @@ function EditToolbar(props: EditToolbarProps) {
         </GridToolbarContainer>
     );
 }
-
 export default function Users() {
     const [rows, setRows] = React.useState<GridRowsProp>([]);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
