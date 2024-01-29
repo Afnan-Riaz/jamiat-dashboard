@@ -115,8 +115,6 @@ function EditToolbar(props: EditToolbarProps) {
     );
 }
 
-
-
 function isKeyboardEvent(event: any): event is React.KeyboardEvent {
     return !!event.key;
 }
@@ -167,7 +165,12 @@ function EditTextarea(props: GridRenderEditCellParams<any, string>) {
                 }}
             />
             {anchorEl && (
-                <Popper open anchorEl={anchorEl} placement="bottom-start" style={{zIndex:"20"}}>
+                <Popper
+                    open
+                    anchorEl={anchorEl}
+                    placement="bottom-start"
+                    style={{ zIndex: "20" }}
+                >
                     <Paper
                         elevation={1}
                         sx={{ p: 1, minWidth: colDef.computedWidth }}
@@ -337,6 +340,7 @@ export default function Team() {
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
+                            key={0}
                             icon={<SaveIcon />}
                             label="Save"
                             sx={{
@@ -345,6 +349,7 @@ export default function Team() {
                             onClick={handleSaveClick(id)}
                         />,
                         <GridActionsCellItem
+                            key={1}
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
@@ -356,6 +361,7 @@ export default function Team() {
 
                 return [
                     <GridActionsCellItem
+                        key={0}
                         icon={<EditIcon />}
                         label="Edit"
                         className="textPrimary"
@@ -363,6 +369,7 @@ export default function Team() {
                         color="inherit"
                     />,
                     <GridActionsCellItem
+                        key={1}
                         icon={<DeleteIcon />}
                         label="Delete"
                         onClick={handleDeleteClick(id)}
@@ -395,13 +402,20 @@ export default function Team() {
                         onRowModesModelChange={handleRowModesModelChange}
                         onRowEditStop={handleRowEditStop}
                         onCellEditStop={(params, event) => {
-                            if (params.reason !== GridCellEditStopReasons.enterKeyDown) {
-                              return;
+                            if (
+                                params.reason !==
+                                GridCellEditStopReasons.enterKeyDown
+                            ) {
+                                return;
                             }
-                            if (isKeyboardEvent(event) && !event.ctrlKey && !event.metaKey) {
-                              event.defaultMuiPrevented = true;
+                            if (
+                                isKeyboardEvent(event) &&
+                                !event.ctrlKey &&
+                                !event.metaKey
+                            ) {
+                                event.defaultMuiPrevented = true;
                             }
-                          }}
+                        }}
                         processRowUpdate={processRowUpdate}
                         onProcessRowUpdateError={handleProcessRowUpdateError}
                         slots={{

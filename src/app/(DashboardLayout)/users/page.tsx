@@ -225,6 +225,7 @@ export default function Users() {
                 if (isInEditMode) {
                     return [
                         <GridActionsCellItem
+                            key={0}
                             icon={<SaveIcon />}
                             label="Save"
                             sx={{
@@ -233,6 +234,7 @@ export default function Users() {
                             onClick={handleSaveClick(id)}
                         />,
                         <GridActionsCellItem
+                            key={1}
                             icon={<CancelIcon />}
                             label="Cancel"
                             className="textPrimary"
@@ -244,6 +246,7 @@ export default function Users() {
 
                 return [
                     <GridActionsCellItem
+                        key={0}
                         icon={<EditIcon />}
                         label="Edit"
                         className="textPrimary"
@@ -251,6 +254,7 @@ export default function Users() {
                         color="inherit"
                     />,
                     <GridActionsCellItem
+                        key={1}
                         icon={<DeleteIcon />}
                         label="Delete"
                         onClick={handleDeleteClick(id)}

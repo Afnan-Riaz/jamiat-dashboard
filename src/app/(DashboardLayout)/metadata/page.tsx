@@ -155,6 +155,7 @@ export default function Metadata() {
             getActions: ({ id }) => {
                 return [
                     <GridActionsCellItem
+                        key={0}
                         icon={<EditIcon />}
                         label="Edit"
                         className="textPrimary"
@@ -162,6 +163,7 @@ export default function Metadata() {
                         color="inherit"
                     />,
                     <GridActionsCellItem
+                        key={1}
                         icon={isLoading==id?<CircularProgress size={30}/>:<DeleteIcon />}
                         label="Delete"
                         onClick={handleDeleteClick(id)}
