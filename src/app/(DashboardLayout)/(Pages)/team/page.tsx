@@ -35,6 +35,7 @@ import {
     Popper,
     Snackbar,
 } from "@mui/material";
+import Image from "next/image";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -300,7 +301,7 @@ export default function Team() {
             width: 120,
             editable: true,
             renderCell: (params) => (
-                <img
+                <Image
                     src={`https://jamiat.vercel.app${params.value}`}
                     alt="Image"
                     style={{
@@ -308,6 +309,8 @@ export default function Team() {
                         height: "100%",
                         objectFit: "contain",
                     }}
+                    width={50}
+                    height={50}
                 />
             ),
         },

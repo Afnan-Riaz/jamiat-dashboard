@@ -1,8 +1,8 @@
 import { writeFile } from "fs/promises"
 import { NextApiRequest } from "next"
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from "next/server"
 
-export async function POST(req:NextApiRequest){
+export async function POST(req:any){
     const data=await req.formData();
     const file=data.get('file');
     if(!file){
