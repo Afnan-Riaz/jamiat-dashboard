@@ -19,7 +19,7 @@ import { Alert, AlertProps, CircularProgress, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
 
 const getData = async () => {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api`,).then(
+    const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api`).then(
         (response) => response.json()
     );
     return data;
@@ -37,9 +37,8 @@ const deleteData = async (data: object) => {
     throw new Error("Error while deleting data");
 };
 
-
 function EditToolbar() {
-    const router=useRouter();
+    const router = useRouter();
 
     const handleClick = () => {
         router.push(`/metadata/new`);
@@ -63,9 +62,9 @@ export default function Metadata() {
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
     );
-    const router=useRouter()
+    const router = useRouter();
     const [dataFetched, setDataFetched] = React.useState<boolean>(false);
-    const [isLoading,setLoading]=React.useState<GridRowId | null>(null)
+    const [isLoading, setLoading] = React.useState<GridRowId | null>(null);
     const [snackbar, setSnackbar] = React.useState<Pick<
         AlertProps,
         "children" | "severity"
@@ -81,7 +80,6 @@ export default function Metadata() {
         getRows();
     }, []);
 
-
     const handleEditClick = (id: GridRowId) => () => {
         router.push(`/metadata/${id}`);
     };
@@ -90,14 +88,14 @@ export default function Metadata() {
         try {
             setLoading(id);
             await deleteData({ _id: id });
-            setLoading(null)
+            setLoading(null);
             setSnackbar({
                 children: "Page successfully Deleted.",
                 severity: "success",
             });
             setRows(rows.filter((row) => row._id.toString() !== id));
         } catch (error) {
-            setLoading(null)
+            setLoading(null);
             setSnackbar({
                 children: "Could not delete data.",
                 severity: "error",
@@ -105,12 +103,16 @@ export default function Metadata() {
         }
     };
 
-
     const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
         setRowModesModel(newRowModesModel);
     };
     const columns: GridColDef[] = [
-        { field: "page_title", headerName: "Page Title", width: 150, editable: false },
+        {
+            field: "page_title",
+            headerName: "Page Title",
+            width: 150,
+            editable: false,
+        },
         {
             field: "meta_title",
             headerName: "Meta Title",
@@ -164,7 +166,13 @@ export default function Metadata() {
                     />,
                     <GridActionsCellItem
                         key={1}
-                        icon={isLoading==id?<CircularProgress size={30}/>:<DeleteIcon />}
+                        icon={
+                            isLoading == id ? (
+                                <CircularProgress size={30} />
+                            ) : (
+                                <DeleteIcon />
+                            )
+                        }
                         label="Delete"
                         onClick={handleDeleteClick(id)}
                         color="inherit"
@@ -173,6 +181,43 @@ export default function Metadata() {
             },
         },
     ];
+    const [file, setFile] = React.useState(null);
+
+    const handleFileChange = (event) => {
+        const selectedFile = event.target.files[0];
+        setFile(selectedFile);
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        if (!file) {
+            alert("Please select a file.");
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const response = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log(result);
+                // Handle success if needed
+            } else {
+                console.error("Failed to upload file.");
+                // Handle failure if needed
+            }
+        } catch (error) {
+            console.error("Error uploading file:", error);
+            // Handle error if needed
+        }
+    };
     return (
         <Box
             sx={{
@@ -189,7 +234,7 @@ export default function Metadata() {
             {dataFetched ? (
                 <>
                     <DataGrid
-                        sx={{ overflowX: 'scroll' }}
+                        sx={{ overflowX: "scroll" }}
                         rows={rows}
                         columns={columns}
                         editMode="row"
@@ -225,6 +270,13 @@ export default function Metadata() {
             ) : (
                 <Loading />
             )}
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Choose a file:
+                    <input type="file" onChange={handleFileChange} />
+                </label>
+                <button type="submit">Upload</button>
+            </form>
         </Box>
     );
 }
