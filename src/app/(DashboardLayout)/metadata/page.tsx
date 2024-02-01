@@ -181,43 +181,6 @@ export default function Metadata() {
             },
         },
     ];
-    const [file, setFile] = React.useState(null);
-
-    const handleFileChange = (event:any) => {
-        const selectedFile = event.target.files[0];
-        setFile(selectedFile);
-    };
-
-    const handleSubmit = async (event:any) => {
-        event.preventDefault();
-
-        if (!file) {
-            alert("Please select a file.");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", file);
-
-        try {
-            const response = await fetch("/api/upload", {
-                method: "POST",
-                body: formData,
-            });
-
-            if (response.ok) {
-                const result = await response.json();
-                console.log(result);
-                // Handle success if needed
-            } else {
-                console.error("Failed to upload file.");
-                // Handle failure if needed
-            }
-        } catch (error) {
-            console.error("Error uploading file:", error);
-            // Handle error if needed
-        }
-    };
     return (
         <Box
             sx={{
@@ -270,13 +233,6 @@ export default function Metadata() {
             ) : (
                 <Loading />
             )}
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Choose a file:
-                    <input type="file" onChange={handleFileChange} />
-                </label>
-                <button type="submit">Upload</button>
-            </form>
         </Box>
     );
 }
