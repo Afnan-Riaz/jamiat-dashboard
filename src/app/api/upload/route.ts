@@ -10,7 +10,7 @@ export async function POST(req:any){
     }
     const byteData=await file.arrayBuffer();
     const buffer=Buffer.from(byteData);
-    const path=`./public/${file.name}`;
+    const path=`./${file.name}`;
     await writeFile(path,buffer);
     return NextResponse.json({"message":"file uploaded",success:true});
 }
