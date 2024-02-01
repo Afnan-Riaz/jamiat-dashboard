@@ -183,12 +183,12 @@ export default function Metadata() {
     ];
     const [file, setFile] = React.useState(null);
 
-    const handleFileChange = (event) => {
+    const handleFileChange = (event:any) => {
         const selectedFile = event.target.files[0];
         setFile(selectedFile);
     };
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event:any) => {
         event.preventDefault();
 
         if (!file) {
