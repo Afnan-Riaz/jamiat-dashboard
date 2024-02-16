@@ -31,10 +31,22 @@ const blogsModel = new mongoose.Schema<Blog>(
             type: String,
             required: false,
         },
-        type: String,
-        title: String,
-        image: String,
-        content: String,
+        type: {
+            type: String,
+            required: true,
+        },
+        title: {
+            type: String,
+            required: true,
+        },
+        image: {
+            type: String,
+            required: true,
+        },
+        content: {
+            type: String,
+            required: true,
+        },
         date: {
             type: Date,
             required: false,

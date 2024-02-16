@@ -23,10 +23,6 @@ import {
     GridRowId,
     GridRowModel,
     GridRowEditStopReasons,
-    useGridApiContext,
-    GridRenderEditCellParams,
-    GridColTypeDef,
-    GridCellEditStopReasons,
     GridRowSpacingParams,
 } from "@mui/x-data-grid";
 import AddIcon from "@mui/icons-material/Add";
@@ -373,6 +369,12 @@ export default function Edit({ params }: any) {
             },
         },
     ];
+    const getRowSpacing = React.useCallback((params: GridRowSpacingParams) => {
+        return {
+            top: params.isFirstVisible ? 0 : 5,
+            bottom: params.isLastVisible ? 0 : 5,
+        };
+    }, []);
     const validateForm = () => {
         if (fields._id && fields.title != "" && fields.image != "" && fields.content != "")
             return true;
@@ -566,6 +568,7 @@ export default function Edit({ params }: any) {
                                         editMode="row"
                                         onRowEditStop={handleRowEditStop}
                                         rowHeight={80}
+                                        getRowSpacing={getRowSpacing}
                                         rowModesModel={rowModesModel}
                                         onRowModesModelChange={
                                             handleRowModesModelChange

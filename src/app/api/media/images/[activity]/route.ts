@@ -8,7 +8,7 @@ export async function GET(
     content: any
 ): Promise<NextResponse> {
     await connectDB();
-    const id =new  ObjectId(content.params.activity);
+    const id =content.params.activity;
     try {
         const data = await Media.find({title:id});
         return NextResponse.json(data);
@@ -16,15 +16,15 @@ export async function GET(
         console.error("Error fetching data:", error);
         throw new Error("Internal Server Error");
     } finally {
-        // await disconnectDB();
+        await disconnectDB();
     }
 }
 
 export async function PUT(request: Request,content:any): Promise<NextResponse> {
     let payload = await request.json();
-    let id=new ObjectId(content.params.activity)
+    let id=content.params.activity;
     payload={type:"activity",title:id, ...payload};
-    const filter={_id:payload._id}
+    const filter={_id:payload._id};
     await connectDB();
     try {
         let result;

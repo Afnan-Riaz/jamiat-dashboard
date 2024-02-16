@@ -16,7 +16,5 @@ export async function GET(
     } catch (error) {
         console.error("Error fetching data:", error);
         throw new Error("Internal Server Error");
-    } finally {
-        // await disconnectDB();
     }
 }
