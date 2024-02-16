@@ -56,7 +56,7 @@ const HiddenInput = styled("input")({
 
 const getData = async () => {
     const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images`
     ).then((response) => response.json());
     return data;
 };
@@ -80,7 +80,7 @@ const uploadImage = async (file: File) => {
 };
 const setData = async (data: GridRowModel) => {
     const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images`,
         {
             method: "PUT",
             headers: {
@@ -94,7 +94,7 @@ const setData = async (data: GridRowModel) => {
 };
 const deleteData = async (data: object) => {
     const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images`,
         {
             method: "DELETE",
             headers: {
@@ -123,16 +123,15 @@ function EditToolbar(props: EditToolbarProps) {
             ...oldRows,
             {
                 _id,
-                image: "",
-                name: "",
-                designation: "",
-                content: "",
+                title:"",
+                description:"",
+                link:"",
                 isNew: true,
             },
         ]);
         setRowModesModel((oldModel) => ({
             ...oldModel,
-            [_id.toString()]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+            [_id.toString()]: { mode: GridRowModes.Edit, fieldToFocus: "title" },
         }));
     };
 
@@ -229,7 +228,7 @@ const multilineColumn: GridColTypeDef = {
     renderEditCell: (params) => <EditTextarea {...params} />,
 };
 
-export default function Team() {
+export default function Images() {
     const [rows, setRows] = React.useState<GridRowsProp>([]);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
@@ -285,7 +284,7 @@ export default function Team() {
         try {
             await deleteData({ _id: id });
             setSnackbar({
-                children: "Item successfully Deleted.",
+                children: "Image successfully Deleted.",
                 severity: "success",
             });
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -302,7 +301,7 @@ export default function Team() {
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         });
-        setFileState(undefined);
+        setFileState(undefined)
         const editedRow = rows.find((row) => row._id.toString() === id);
         if (editedRow!.isNew) {
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -311,7 +310,7 @@ export default function Team() {
 
     const processRowUpdate = async (newRow: GridRowModel) => {
         if (fileState && fileState.type.startsWith("image/")) {
-            newRow.image = "/" + fileState?.name;
+            newRow.link = "/"+fileState?.name;
             await uploadImage(fileState);
         }
         const updatedRow = { ...newRow, isNew: false };
@@ -322,7 +321,7 @@ export default function Team() {
         );
         await setData(newRow);
         setSnackbar({
-            children: "Member successfully saved.",
+            children: "Image successfully saved.",
             severity: "success",
         });
         return updatedRow;
@@ -346,7 +345,7 @@ export default function Team() {
       }, []);
     const columns: GridColDef[] = [
         {
-            field: "image",
+            field: "link",
             headerName: "Image",
             type: "string",
             width: 150,
@@ -355,13 +354,7 @@ export default function Team() {
                 <Button
                     component="label"
                     variant="contained"
-                    sx={{
-                        justifyContent: "start",
-                        width: "100%",
-                        paddingInline: "6px",
-                        marginInline: "4px",
-                        overflowX: "hidden",
-                    }}
+                    sx={{justifyContent:"start",width:"100%", paddingInline:"6px", marginInline:"4px",overflowX:"hidden"}}
                     startIcon={<IconUpload />}
                 >
                     {fileState ? fileState.name : "Upload Image"}
@@ -381,24 +374,17 @@ export default function Team() {
                         width: "100%",
                         height: "100%",
                         objectFit: "contain",
-                        objectPosition: "left",
+                        objectPosition:"left"
                     }}
                     width={100}
                     height={60}
                 />
             ),
         },
-        { field: "name", headerName: "Name", width: 180, editable: true },
+        { field: "title", headerName: "Title", width: 180, editable: true },
         {
-            field: "designation",
-            headerName: "Designation",
-            type: "string",
-            width: 140,
-            editable: true,
-        },
-        {
-            field: "content",
-            headerName: "Message",
+            field: "description",
+            headerName: "Description",
             type: "string",
             width: 400,
             editable: true,

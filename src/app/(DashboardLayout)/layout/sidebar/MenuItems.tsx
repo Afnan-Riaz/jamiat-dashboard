@@ -29,16 +29,76 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    title: "Our Team",
+    title: "Team",
     icon: IconPointFilled,
     href: "/team",
   },
   {
     id: uniqueId(),
-    title: "Forms",
-    icon: IconTable,
-    href: "/ui-components/forms",
+    title: "Message",
+    icon: IconPointFilled,
+    href: "/message",
   },
+  {
+    id: uniqueId(),
+    title: "Books",
+    icon: IconPointFilled,
+    href: "/books",
+  },
+  {
+    id: uniqueId(),
+    title: "Magazine",
+    icon: IconPointFilled,
+    href: "/magazine",
+  },
+  {
+    id: uniqueId(),
+    title: "Blogs",
+    icon: IconPointFilled,
+    href: "/blogs",
+  },
+  {
+    id: uniqueId(),
+    title: "Activities",
+    icon: IconPointFilled,
+    href: "/activities",
+  },
+  {
+    id: uniqueId(),
+    title: "Projects",
+    icon: IconPointFilled,
+    href: "/projects",
+  },
+  {
+    id: uniqueId(),
+    title: "Press Releases",
+    icon: IconPointFilled,
+    href: "/releases",
+  },
+  {
+    id: uniqueId(),
+    title: "Images",
+    icon: IconPointFilled,
+    href: "/images",
+  },
+  {
+    id: uniqueId(),
+    title: "Videos",
+    icon: IconPointFilled,
+    href: "/videos",
+  },
+  {
+    id: uniqueId(),
+    title: "Audio",
+    icon: IconPointFilled,
+    href: "/audio",
+  },
+  // {
+  //   id: uniqueId(),
+  //   title: "Forms",
+  //   icon: IconTable,
+  //   href: "/ui-components/forms",
+  // },
   // {
   //   id: uniqueId(),
   //   title: "Buttons",
@@ -57,12 +117,12 @@ const Menuitems = [
   //   icon: IconUser,
   //   href: "/ui-components/pagination",
   // },
-  {
-    id: uniqueId(),
-    title: "Tables",
-    icon: IconLayoutGrid,
-    href: "/ui-components/table",
-  },
+  // {
+  //   id: uniqueId(),
+  //   title: "Tables",
+  //   icon: IconLayoutGrid,
+  //   href: "/ui-components/table",
+  // },
 ];
 
 export default Menuitems;

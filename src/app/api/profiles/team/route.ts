@@ -1,12 +1,12 @@
 import { connectDB, disconnectDB } from "@/utils/db";
-import { Page } from "@/utils/model/pageModel";
+import { Profiles } from "@/utils/model/profilesModel";
 import mongoose, { Document } from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function GET(): Promise<NextResponse> {
     await connectDB();
     try {
-        const data: Document[] = await Page.find();
+        const data: Document[] = await Profiles.find({ type: 'team' });
         return NextResponse.json(data);
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -17,17 +17,18 @@ export async function GET(): Promise<NextResponse> {
 }
 
 export async function PUT(request: Request): Promise<NextResponse> {
-    const payload = await request.json();
+    let payload = await request.json();
+    payload={type:"team", ...payload};
     const filter={_id:payload._id}
     await connectDB();
     try {
         let result;
-        const exist = await Page.findOne(filter);
+        const exist = await Profiles.findOne(filter);
 
         if (exist) {
-            result = await Page.findOneAndUpdate(filter, payload);
+            result = await Profiles.findOneAndUpdate(filter, payload);
         } else {
-            result = await Page.create(payload);
+            result = await Profiles.create(payload);
         }
         return NextResponse.json({ result, success: true });
     } catch (error) {
@@ -43,9 +44,9 @@ export async function DELETE(request: Request): Promise<NextResponse> {
     await connectDB();
     try {
         let result;
-        const exist = await Page.findOne(filter);
+        const exist = await Profiles.findOne(filter);
         if(exist){
-            result = await Page.deleteOne(filter);
+            result = await Profiles.deleteOne(filter);
             return NextResponse.json({ result, success: true });
         }
         throw Error("Object not found");

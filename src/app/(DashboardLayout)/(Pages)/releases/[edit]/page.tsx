@@ -9,31 +9,46 @@ import {
     AlertProps,
     Alert,
     Snackbar,
+    styled,
+    FormLabel,
 } from "@mui/material";
 import BaseCard from "@/app/(DashboardLayout)/components/shared/BaseCard";
 import mongoose from "mongoose";
 import Loading from "@/app/loading";
 import { useRouter } from "next/navigation";
+import { IconUpload } from "@tabler/icons-react";
 
-interface Page {
+interface Blog {
     _id: object;
-    meta_title: string;
-    meta_description: string;
-    canonical: string;
-    slug: string;
-    page_title: string;
-    content?: string;
+    meta_title?: string;
+    meta_description?: string;
+    title: string;
+    canonical?: string;
+    slug?: string;
+    image: string;
+    content: string;
+    date: string;
 }
-
+const HiddenInput = styled("input")({
+    clip: "rect(0 0 0 0)",
+    clipPath: "inset(50%)",
+    height: 1,
+    overflow: "hidden",
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    whiteSpace: "nowrap",
+    width: 1,
+});
 const getData = async (id: string) => {
     const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/${id}`
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/${id}`
     ).then((response) => response.json());
     return data;
 };
 
-const setData = async (data: Page) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api`, {
+const setData = async (data: Blog) => {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/releases`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -46,13 +61,15 @@ const setData = async (data: Page) => {
 const ObjectId = mongoose.Types.ObjectId;
 
 export default function Edit({ params }: any) {
-    const [row, setRow] = useState<Page>({
+    const [row, setRow] = useState<Blog>({
         _id: new ObjectId(),
         meta_title: "",
         meta_description: "",
         canonical: "",
         slug: "",
-        page_title: "",
+        image: "",
+        date: new Date().toISOString(),
+        title: "",
         content: "",
     });
     const router = useRouter();
@@ -63,15 +80,9 @@ export default function Edit({ params }: any) {
     > | null>(null);
     const handleCloseSnackbar = () => setSnackbar(null);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [fileState, setFileState] = React.useState<File | undefined>();
     const validateForm = () => {
-        if (
-            row._id &&
-            row.page_title != "" &&
-            row.meta_title != "" &&
-            row.meta_description != "" &&
-            row.canonical != "" &&
-            row.slug != ""
-        )
+        if (row._id && row.title != "" && row.image != "" && row.content != "")
             return true;
         throw new Error();
     };
@@ -116,6 +127,24 @@ export default function Edit({ params }: any) {
                     reject("Image upload failed. Error: " + error.message);
                 });
         });
+    const uploadImage = async (file: File) => {
+        const formData = new FormData();
+        formData.append("file", file);
+
+        fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+            method: "POST",
+            body: formData,
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("HTTP Error: " + response.status);
+                }
+                return response.json();
+            })
+            .catch((error) => {
+                console.error("File upload failed. Error: " + error.message);
+            });
+    };
     const filePickerCallback = (callback: any, value: any, meta: any) => {
         const input = document.createElement("input");
         input.setAttribute("type", "file");
@@ -167,14 +196,17 @@ export default function Edit({ params }: any) {
         }));
         try {
             validateForm();
+            if (fileState && fileState.type.startsWith("image/")) {
+                await uploadImage(fileState);
+            }
             await setData(row);
             setIsLoaded(true);
             setSnackbar({
-                children: "Page successfully Saved.",
+                children: "Item successfully Saved.",
                 severity: "success",
             });
             setTimeout(() => {
-                router.push("/metadata");
+                router.push("/releases");
             }, 3000);
         } catch (error) {
             setIsLoaded(true);
@@ -183,6 +215,13 @@ export default function Edit({ params }: any) {
                 children: "An error occured.",
                 severity: "error",
             });
+        }
+    };
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target?.files;
+        if (files && files.length > 0) {
+            setFileState(files[0]);
+            row.image = "/" + files[0].name;
         }
     };
     useEffect(() => {
@@ -199,15 +238,15 @@ export default function Edit({ params }: any) {
         <>
             <Grid container spacing={3}>
                 <Grid item xs={12} lg={12}>
-                    <BaseCard title="Edit Page">
+                    <BaseCard title="Edit Press Release">
                         {isLoaded ? (
                             <>
                                 <Stack spacing={3}>
                                     <TextField
-                                        label="Page Title"
+                                        label="Title"
                                         variant="outlined"
-                                        id="page_title"
-                                        value={row?.page_title}
+                                        id="title"
+                                        value={row?.title}
                                         onChange={handleChange}
                                     />
                                     <TextField
@@ -239,6 +278,63 @@ export default function Edit({ params }: any) {
                                         value={row?.slug}
                                         onChange={handleChange}
                                     />
+
+                                    <Stack
+                                        direction={"row"}
+                                        spacing={2}
+                                        alignItems={"center"}
+                                    >
+                                        <FormLabel>Featured Image:</FormLabel>
+                                        <Button
+                                            component="label"
+                                            variant="contained"
+                                            sx={{
+                                                justifyContent: "start",
+                                                width: "150px",
+                                                paddingInline: "6px",
+                                                overflowX: "hidden",
+                                                whiteSpace: "nowrap",
+                                            }}
+                                            startIcon={<IconUpload />}
+                                        >
+                                            {row?.image
+                                                ? row.image
+                                                : "Upload Image"}
+                                            <HiddenInput
+                                                type="file"
+                                                onChange={(e) =>
+                                                    handleFileChange(e)
+                                                }
+                                                multiple={false}
+                                                accept="image/*"
+                                            />
+                                        </Button>
+                                    </Stack>
+                                    <Stack
+                                        direction={"row"}
+                                        spacing={2}
+                                        alignItems={"center"}
+                                    >
+                                        <FormLabel>Date:</FormLabel>
+                                        <input
+                                            type="date"
+                                            name="date"
+                                            id="date"
+                                            defaultValue={row?.date.slice(0, 10)}
+                                            onChange={handleChange}
+                                            style={{
+                                                border: "1px solid #bdbdbd",
+                                                borderRadius: "4px",
+                                                padding: "8px 12px",
+                                                fontSize: "16px",
+                                                outlineColor: "#03c9d7",
+                                                backgroundColor: "#fafafa",
+                                                width: "150px",
+                                                boxShadow:
+                                                    "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                            }}
+                                        />
+                                    </Stack>
                                     <Editor
                                         id="content"
                                         apiKey="c9gbqgvdzp4v1bzls5udybk9dj7n4c4zsh4wws6j5or5s3uy"
@@ -251,8 +347,9 @@ export default function Edit({ params }: any) {
                                             images_upload_handler:
                                                 imageUploader,
                                             automatic_uploads: true,
-                                            file_picker_callback: filePickerCallback,
-                                            file_picker_types:"image media",
+                                            file_picker_callback:
+                                                filePickerCallback,
+                                            file_picker_types: "image media",
                                         }}
                                         onInit={(evt, editor) =>
                                             (editorRef.current = editor)

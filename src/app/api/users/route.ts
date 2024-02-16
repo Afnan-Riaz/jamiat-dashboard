@@ -1,10 +1,10 @@
-import { connectionStr } from "@/utils/db";
+import { connectDB, disconnectDB } from "@/utils/db";
 import { Users } from "@/utils/model/usersModel";
 import mongoose, { Document } from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function GET(): Promise<NextResponse> {
-    await mongoose.connect(connectionStr);
+    await connectDB();
     try {
         const data: Document[] = await Users.find();
         return NextResponse.json(data);
@@ -12,14 +12,14 @@ export async function GET(): Promise<NextResponse> {
         console.error("Error fetching data:", error);
         throw new Error("Internal Server Error");
     } finally {
-        mongoose.disconnect();
+        await disconnectDB();
     }
 }
 
 export async function PUT(request: Request): Promise<NextResponse> {
     const payload = await request.json();
     const filter={_id:payload._id}
-    await mongoose.connect(connectionStr);
+    await connectDB();
     try {
         let result;
         const exist = await Users.findOne(filter);
@@ -33,14 +33,14 @@ export async function PUT(request: Request): Promise<NextResponse> {
     } catch (error) {
         return NextResponse.json({ error, success: false });
     } finally {
-        mongoose.disconnect();
+        await disconnectDB();
     }
 }
 
 export async function DELETE(request: Request): Promise<NextResponse> {
     const payload = await request.json();
     const filter={_id:payload._id}
-    await mongoose.connect(connectionStr);
+    await connectDB();
     try {
         let result;
         const exist = await Users.findOne(filter);
@@ -52,6 +52,6 @@ export async function DELETE(request: Request): Promise<NextResponse> {
     } catch (error) {
         return NextResponse.json({ error, success: false });
     } finally {
-        mongoose.disconnect();
+        await disconnectDB();
     }
 }

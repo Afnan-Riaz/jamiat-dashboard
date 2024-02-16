@@ -1,10 +1,10 @@
-import { connectionStr } from "@/utils/db";
+import { connectDB, disconnectDB } from "@/utils/db";
 import { Profiles } from "@/utils/model/profilesModel";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function GET(){
-    await mongoose.connect(connectionStr);
+    await connectDB();
     const data=await Profiles.find({ type: 'inspiration' });
     return NextResponse.json(data);
 }

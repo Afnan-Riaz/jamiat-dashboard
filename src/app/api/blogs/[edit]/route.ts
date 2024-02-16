@@ -1,5 +1,5 @@
 import { connectDB, disconnectDB } from "@/utils/db";
-import { Page } from "@/utils/model/pageModel";
+import { Blogs } from "@/utils/model/blogsModel";
 import mongoose, { Document } from "mongoose";
 import { NextResponse } from "next/server";
 
@@ -8,15 +8,15 @@ export async function GET(
     content: any
 ): Promise<NextResponse> {
     await connectDB();
-    const id = content.params.page;
+    const id = content.params.edit;
     const filter = { _id: id };
     try {
-        const data = await Page.findById(filter);
+        const data = await Blogs.findById(filter);
         return NextResponse.json(data);
     } catch (error) {
         console.error("Error fetching data:", error);
         throw new Error("Internal Server Error");
     } finally {
-        await disconnectDB();
+        // await disconnectDB();
     }
 }

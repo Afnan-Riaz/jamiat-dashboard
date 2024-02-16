@@ -56,7 +56,7 @@ const HiddenInput = styled("input")({
 
 const getData = async () => {
     const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/message`
     ).then((response) => response.json());
     return data;
 };
@@ -80,7 +80,7 @@ const uploadImage = async (file: File) => {
 };
 const setData = async (data: GridRowModel) => {
     const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/message`,
         {
             method: "PUT",
             headers: {
@@ -94,7 +94,7 @@ const setData = async (data: GridRowModel) => {
 };
 const deleteData = async (data: object) => {
     const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/message`,
         {
             method: "DELETE",
             headers: {
@@ -229,7 +229,7 @@ const multilineColumn: GridColTypeDef = {
     renderEditCell: (params) => <EditTextarea {...params} />,
 };
 
-export default function Team() {
+export default function Message() {
     const [rows, setRows] = React.useState<GridRowsProp>([]);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
@@ -285,7 +285,7 @@ export default function Team() {
         try {
             await deleteData({ _id: id });
             setSnackbar({
-                children: "Item successfully Deleted.",
+                children: "Member successfully Deleted.",
                 severity: "success",
             });
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -302,7 +302,7 @@ export default function Team() {
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         });
-        setFileState(undefined);
+        setFileState(undefined)
         const editedRow = rows.find((row) => row._id.toString() === id);
         if (editedRow!.isNew) {
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -311,7 +311,7 @@ export default function Team() {
 
     const processRowUpdate = async (newRow: GridRowModel) => {
         if (fileState && fileState.type.startsWith("image/")) {
-            newRow.image = "/" + fileState?.name;
+            newRow.image = "/"+fileState?.name;
             await uploadImage(fileState);
         }
         const updatedRow = { ...newRow, isNew: false };
@@ -355,13 +355,7 @@ export default function Team() {
                 <Button
                     component="label"
                     variant="contained"
-                    sx={{
-                        justifyContent: "start",
-                        width: "100%",
-                        paddingInline: "6px",
-                        marginInline: "4px",
-                        overflowX: "hidden",
-                    }}
+                    sx={{justifyContent:"start",width:"100%", paddingInline:"6px", marginInline:"4px",overflowX:"hidden"}}
                     startIcon={<IconUpload />}
                 >
                     {fileState ? fileState.name : "Upload Image"}
@@ -381,7 +375,7 @@ export default function Team() {
                         width: "100%",
                         height: "100%",
                         objectFit: "contain",
-                        objectPosition: "left",
+                        objectPosition:"left"
                     }}
                     width={100}
                     height={60}
@@ -391,14 +385,14 @@ export default function Team() {
         { field: "name", headerName: "Name", width: 180, editable: true },
         {
             field: "designation",
-            headerName: "Designation",
+            headerName: "Role",
             type: "string",
             width: 140,
             editable: true,
         },
         {
             field: "content",
-            headerName: "Message",
+            headerName: "Bio",
             type: "string",
             width: 400,
             editable: true,

@@ -20,9 +20,6 @@ import {
     GridRowId,
     GridRowModel,
     GridRowEditStopReasons,
-    useGridApiContext,
-    GridRenderEditCellParams,
-    GridColTypeDef,
     GridCellEditStopReasons,
     GridRowSpacingParams,
 } from "@mui/x-data-grid";
@@ -30,10 +27,6 @@ import Loading from "@/app/loading";
 import {
     Alert,
     AlertProps,
-    InputBase,
-    InputBaseProps,
-    Paper,
-    Popper,
     Snackbar,
     styled,
 } from "@mui/material";
@@ -56,7 +49,7 @@ const HiddenInput = styled("input")({
 
 const getData = async () => {
     const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/books`
     ).then((response) => response.json());
     return data;
 };
@@ -80,7 +73,7 @@ const uploadImage = async (file: File) => {
 };
 const setData = async (data: GridRowModel) => {
     const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/books`,
         {
             method: "PUT",
             headers: {
@@ -94,7 +87,7 @@ const setData = async (data: GridRowModel) => {
 };
 const deleteData = async (data: object) => {
     const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/books`,
         {
             method: "DELETE",
             headers: {
@@ -123,16 +116,14 @@ function EditToolbar(props: EditToolbarProps) {
             ...oldRows,
             {
                 _id,
-                image: "",
-                name: "",
-                designation: "",
-                content: "",
+                title: "",
+                link: "",
                 isNew: true,
             },
         ]);
         setRowModesModel((oldModel) => ({
             ...oldModel,
-            [_id.toString()]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+            [_id.toString()]: { mode: GridRowModes.Edit, fieldToFocus: "title" },
         }));
     };
 
@@ -153,83 +144,8 @@ function isKeyboardEvent(event: any): event is React.KeyboardEvent {
     return !!event.key;
 }
 
-function EditTextarea(props: GridRenderEditCellParams<any, string>) {
-    const { id, field, value, colDef, hasFocus } = props;
-    const [valueState, setValueState] = React.useState(value);
-    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>();
-    const [inputRef, setInputRef] = React.useState<HTMLInputElement | null>(
-        null
-    );
-    const apiRef = useGridApiContext();
 
-    React.useLayoutEffect(() => {
-        if (hasFocus && inputRef) {
-            inputRef.focus();
-        }
-    }, [hasFocus, inputRef]);
-
-    const handleRef = React.useCallback((el: HTMLElement | null) => {
-        setAnchorEl(el);
-    }, []);
-
-    const handleChange = React.useCallback<
-        NonNullable<InputBaseProps["onChange"]>
-    >(
-        (event) => {
-            const newValue = event.target.value;
-            setValueState(newValue);
-            apiRef.current.setEditCellValue(
-                { id, field, value: newValue, debounceMs: 200 },
-                event
-            );
-        },
-        [apiRef, field, id]
-    );
-
-    return (
-        <div style={{ position: "relative", alignSelf: "flex-start" }}>
-            <div
-                ref={handleRef}
-                style={{
-                    height: 1,
-                    width: colDef.computedWidth,
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                }}
-            />
-            {anchorEl && (
-                <Popper
-                    open
-                    anchorEl={anchorEl}
-                    placement="bottom-start"
-                    style={{ zIndex: "20" }}
-                >
-                    <Paper
-                        elevation={1}
-                        sx={{ p: 1, minWidth: colDef.computedWidth }}
-                    >
-                        <InputBase
-                            multiline
-                            rows={4}
-                            value={valueState}
-                            sx={{ textarea: { resize: "both" }, width: "100%" }}
-                            onChange={handleChange}
-                            inputRef={(ref) => setInputRef(ref)}
-                        />
-                    </Paper>
-                </Popper>
-            )}
-        </div>
-    );
-}
-
-const multilineColumn: GridColTypeDef = {
-    type: "string",
-    renderEditCell: (params) => <EditTextarea {...params} />,
-};
-
-export default function Team() {
+export default function Book() {
     const [rows, setRows] = React.useState<GridRowsProp>([]);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
@@ -266,7 +182,12 @@ export default function Team() {
             event.defaultMuiPrevented = true;
         }
     };
-
+    const getRowSpacing = React.useCallback((params: GridRowSpacingParams) => {
+        return {
+          top: params.isFirstVisible ? 0 : 5,
+          bottom: params.isLastVisible ? 0 : 5,
+        };
+      }, []);
     const handleEditClick = (id: GridRowId) => () => {
         setRowModesModel({
             ...rowModesModel,
@@ -285,7 +206,7 @@ export default function Team() {
         try {
             await deleteData({ _id: id });
             setSnackbar({
-                children: "Item successfully Deleted.",
+                children: "Book successfully Deleted.",
                 severity: "success",
             });
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -302,7 +223,7 @@ export default function Team() {
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         });
-        setFileState(undefined);
+        setFileState(undefined)
         const editedRow = rows.find((row) => row._id.toString() === id);
         if (editedRow!.isNew) {
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -311,7 +232,7 @@ export default function Team() {
 
     const processRowUpdate = async (newRow: GridRowModel) => {
         if (fileState && fileState.type.startsWith("image/")) {
-            newRow.image = "/" + fileState?.name;
+            newRow.title = "/"+fileState?.name;
             await uploadImage(fileState);
         }
         const updatedRow = { ...newRow, isNew: false };
@@ -322,7 +243,7 @@ export default function Team() {
         );
         await setData(newRow);
         setSnackbar({
-            children: "Member successfully saved.",
+            children: "Book successfully saved.",
             severity: "success",
         });
         return updatedRow;
@@ -338,16 +259,11 @@ export default function Team() {
     const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
         setRowModesModel(newRowModesModel);
     };
-    const getRowSpacing = React.useCallback((params: GridRowSpacingParams) => {
-        return {
-          top: params.isFirstVisible ? 0 : 5,
-          bottom: params.isLastVisible ? 0 : 5,
-        };
-      }, []);
+
     const columns: GridColDef[] = [
         {
-            field: "image",
-            headerName: "Image",
+            field: "title",
+            headerName: "Cover Photo",
             type: "string",
             width: 150,
             editable: true,
@@ -355,13 +271,7 @@ export default function Team() {
                 <Button
                     component="label"
                     variant="contained"
-                    sx={{
-                        justifyContent: "start",
-                        width: "100%",
-                        paddingInline: "6px",
-                        marginInline: "4px",
-                        overflowX: "hidden",
-                    }}
+                    sx={{justifyContent:"start",width:"100%", paddingInline:"6px", marginInline:"4px",overflowX:"hidden"}}
                     startIcon={<IconUpload />}
                 >
                     {fileState ? fileState.name : "Upload Image"}
@@ -381,29 +291,14 @@ export default function Team() {
                         width: "100%",
                         height: "100%",
                         objectFit: "contain",
-                        objectPosition: "left",
+                        objectPosition:"left"
                     }}
                     width={100}
                     height={60}
                 />
             ),
         },
-        { field: "name", headerName: "Name", width: 180, editable: true },
-        {
-            field: "designation",
-            headerName: "Designation",
-            type: "string",
-            width: 140,
-            editable: true,
-        },
-        {
-            field: "content",
-            headerName: "Message",
-            type: "string",
-            width: 400,
-            editable: true,
-            ...multilineColumn,
-        },
+        { field: "link", headerName: "Link", width: 450, editable: true },
         {
             field: "actions",
             type: "actions",
@@ -475,8 +370,8 @@ export default function Team() {
                         rows={rows}
                         columns={columns}
                         editMode="row"
-                        rowHeight={100}
                         getRowSpacing={getRowSpacing}
+                        rowHeight={100}
                         rowModesModel={rowModesModel}
                         onRowModesModelChange={handleRowModesModelChange}
                         onRowEditStop={handleRowEditStop}
