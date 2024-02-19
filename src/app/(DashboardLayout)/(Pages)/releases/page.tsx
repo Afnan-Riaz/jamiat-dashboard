@@ -21,20 +21,23 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const getData = async () => {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/releases`).then(
-        (response) => response.json()
-    );
+    const data = await fetch(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/releases`
+    ).then((response) => response.json());
     return data;
 };
 
 const deleteData = async (data: object) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/releases`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    }).then((response) => response.json());
+    const result = await fetch(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/releases`,
+        {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        }
+    ).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while deleting data");
 };
@@ -137,14 +140,14 @@ export default function Releases() {
         {
             field: "title",
             headerName: "Title",
-            width: 130,
+            width: 180,
             editable: false,
         },
         {
             field: "meta_title",
             headerName: "Meta Title",
             type: "string",
-            width: 120,
+            width: 160,
             editable: false,
         },
         {
@@ -158,14 +161,14 @@ export default function Releases() {
             field: "canonical",
             headerName: "Canonical Link",
             type: "string",
-            width: 150,
+            width: 180,
             editable: false,
         },
         {
             field: "slug",
             headerName: "Slug",
             type: "string",
-            width: 90,
+            width: 120,
             editable: false,
         },
         {
@@ -190,6 +193,26 @@ export default function Releases() {
             headerName: "Actions",
             width: 100,
             cellClassName: "actions",
+            
+            // filter: true,
+            setCellProps: () => ({
+                style: {
+                    whiteSpace: "nowrap",
+                    position: "sticky",
+                    left: "0",
+                    background: "white",
+                    zIndex: 100,
+                },
+            }),
+            setCellHeaderProps: () => ({
+                style: {
+                    whiteSpace: "nowrap",
+                    position: "sticky",
+                    left: 0,
+                    background: "white",
+                    zIndex: 101,
+                },
+            }),
             getActions: ({ id }) => {
                 return [
                     <GridActionsCellItem

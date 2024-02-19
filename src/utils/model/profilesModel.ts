@@ -11,8 +11,8 @@ interface Profile extends Document {
     image: mongoose.Schema.Types.Mixed;
     designation: string;
     content: string;
-    dob?: string;
-    dod?: string;
+    dob?: Date;
+    dod?: Date;
 }
 
 const profilesModel = new mongoose.Schema<Profile>(
@@ -27,8 +27,8 @@ const profilesModel = new mongoose.Schema<Profile>(
         image: { type: String, required: true },
         designation: { type: String, required: true },
         content: { type: String, required: true },
-        dob: { type: String, required: false },
-        dod: { type: String, required: false },
+        dob: { type: Date, required: false },
+        dod: { type: Date, required: false },
     },
     { versionKey: false }
 );

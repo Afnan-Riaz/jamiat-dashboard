@@ -137,7 +137,7 @@ export default function Activites() {
         {
             field: "title",
             headerName: "Title",
-            width: 130,
+            width: 180,
             editable: false,
         },
         {
@@ -151,7 +151,7 @@ export default function Activites() {
             field: "meta_title",
             headerName: "Meta Title",
             type: "string",
-            width: 120,
+            width: 160,
             editable: false,
         },
         {
@@ -165,14 +165,14 @@ export default function Activites() {
             field: "canonical",
             headerName: "Canonical Link",
             type: "string",
-            width: 150,
+            width: 180,
             editable: false,
         },
         {
             field: "slug",
             headerName: "Slug",
             type: "string",
-            width: 90,
+            width: 120,
             editable: false,
         },
         {

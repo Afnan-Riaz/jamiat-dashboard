@@ -137,14 +137,14 @@ export default function Projects() {
         {
             field: "title",
             headerName: "Blog Title",
-            width: 130,
+            width: 180,
             editable: false,
         },
         {
             field: "meta_title",
             headerName: "Meta Title",
             type: "string",
-            width: 120,
+            width: 160,
             editable: false,
         },
         {
@@ -158,14 +158,14 @@ export default function Projects() {
             field: "canonical",
             headerName: "Canonical Link",
             type: "string",
-            width: 150,
+            width: 180,
             editable: false,
         },
         {
             field: "slug",
             headerName: "Slug",
             type: "string",
-            width: 110,
+            width: 120,
             editable: false,
         },
         {

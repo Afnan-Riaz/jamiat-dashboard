@@ -21,14 +21,14 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const getData = async () => {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs`).then(
+    const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/inspirations`).then(
         (response) => response.json()
     );
     return data;
 };
 
 const deleteData = async (data: object) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs`, {
+    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/inspirations`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -43,7 +43,7 @@ function EditToolbar() {
     const router = useRouter();
 
     const handleClick = () => {
-        router.push(`/blogs/new`);
+        router.push(`/inspirations/new`);
     };
 
     return (
@@ -59,7 +59,7 @@ function EditToolbar() {
     );
 }
 
-export default function Blogs() {
+export default function Inspirations() {
     const [rows, setRows] = React.useState<GridRowsProp>([]);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
@@ -82,7 +82,7 @@ export default function Blogs() {
     }, []);
 
     const handleEditClick = (id: GridRowId) => () => {
-        router.push(`/blogs/${id}`);
+        router.push(`/inspirations/${id}`);
     };
 
     const handleDeleteClick = (id: GridRowId) => async () => {
@@ -91,7 +91,7 @@ export default function Blogs() {
             await deleteData({ _id: id });
             setLoading(null);
             setSnackbar({
-                children: "Blog successfully Deleted.",
+                children: "Inspiration successfully Deleted.",
                 severity: "success",
             });
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -117,7 +117,7 @@ export default function Blogs() {
         {
             field: "image",
             headerName: "Photo",
-            width: 120,
+            width: 90,
             editable: false,
             renderCell: (params) => (
                 <Image
@@ -135,9 +135,15 @@ export default function Blogs() {
             ),
         },
         {
-            field: "title",
-            headerName: "Blog Title",
+            field: "name",
+            headerName: "Name",
             width: 180,
+            editable: false,
+        },
+        {
+            field: "designation",
+            headerName: "Designation",
+            width: 160,
             editable: false,
         },
         {
@@ -158,7 +164,7 @@ export default function Blogs() {
             field: "canonical",
             headerName: "Canonical Link",
             type: "string",
-            width: 180,
+            width: 160,
             editable: false,
         },
         {
@@ -169,13 +175,22 @@ export default function Blogs() {
             editable: false,
         },
         {
-            field: "date",
-            headerName: "Date",
+            field: "dob",
+            headerName: "DOB",
             type: "string",
             width: 90,
             editable: false,
             renderCell: (params) =>
                 new Date(params.value).toLocaleDateString("en-us"),
+        },
+        {
+            field: "dod",
+            headerName: "DOD",
+            type: "string",
+            width: 90,
+            editable: false,
+            renderCell: (params) =>(
+                params.value?new Date(params.value).toLocaleDateString("en-us"):"Alive"),
         },
         {
             field: "content",

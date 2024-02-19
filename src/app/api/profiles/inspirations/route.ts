@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function GET(): Promise<NextResponse> {
     await connectDB();
     try {
-        const data: Document[] = await Profiles.find({ type: { $in: ['team', 'president'] }}).sort({ type: 1 });
+        const data: Document[] = await Profiles.find({ type: 'inspiration' });
         return NextResponse.json(data);
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -18,7 +18,7 @@ export async function GET(): Promise<NextResponse> {
 
 export async function PUT(request: Request): Promise<NextResponse> {
     let payload = await request.json();
-    payload={type:"team", ...payload};
+    payload={type:"inspiration", ...payload};
     const filter={_id:payload._id}
     await connectDB();
     try {
@@ -26,7 +26,7 @@ export async function PUT(request: Request): Promise<NextResponse> {
         const exist = await Profiles.findOne(filter);
 
         if (exist) {
-            result = await Profiles.findOneAndUpdate(filter, payload);
+            result = await Profiles.findOneAndReplace(filter, payload);
         } else {
             result = await Profiles.create(payload);
         }

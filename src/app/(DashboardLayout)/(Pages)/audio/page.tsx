@@ -160,18 +160,12 @@ export default function Audio() {
     React.useEffect(() => {
         async function getRows() {
             const initialRows: GridRowsProp = await getData();
+            console.log(initialRows)
             setRows(initialRows);
             setDataFetched(true);
         }
         getRows();
     }, []);
-    const parseDate = (d: Date) => {
-        const date = new Date(d);
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const year = date.getFullYear();
-        const parsedDate = `${year}-${month}`;
-        return parsedDate;
-    };
     const handleFileChange = (
         id: GridRowId,
         event: React.ChangeEvent<HTMLInputElement>
@@ -316,7 +310,7 @@ export default function Audio() {
                     type="date"
                     name="date"
                     id="date"
-                    defaultValue={params.value.slice(0, 10)}
+                    defaultValue={params.value.toString().slice(0, 10)}
                     onChange={(e) => setDate(e.target.value)}
                 />
             ),

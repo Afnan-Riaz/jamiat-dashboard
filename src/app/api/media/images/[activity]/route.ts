@@ -2,15 +2,15 @@ import { connectDB, disconnectDB } from "@/utils/db";
 import { Media } from "@/utils/model/mediaModel";
 import mongoose, { Document } from "mongoose";
 import { NextResponse } from "next/server";
-const ObjectId=mongoose.Types.ObjectId;
+const ObjectId = mongoose.Types.ObjectId;
 export async function GET(
     request: Request,
     content: any
 ): Promise<NextResponse> {
     await connectDB();
-    const id =content.params.activity;
+    const id = content.params.activity;
     try {
-        const data = await Media.find({title:id});
+        const data = await Media.find({ title: id });
         return NextResponse.json(data);
     } catch (error) {
         console.error("Error fetching data:", error);
@@ -20,11 +20,14 @@ export async function GET(
     }
 }
 
-export async function PUT(request: Request,content:any): Promise<NextResponse> {
+export async function PUT(
+    request: Request,
+    content: any
+): Promise<NextResponse> {
     let payload = await request.json();
-    let id=content.params.activity;
-    payload={type:"activity",title:id, ...payload};
-    const filter={_id:payload._id};
+    let id = content.params.activity;
+    payload = { type: "activity", ...payload, title: id };
+    const filter = { _id: payload._id };
     await connectDB();
     try {
         let result;

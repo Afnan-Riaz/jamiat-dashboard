@@ -325,7 +325,7 @@ export default function Edit({ params }: any) {
                                             automatic_uploads: true,
                                             file_picker_callback:
                                                 filePickerCallback,
-                                            file_picker_types: "image media",
+                                            file_picker_types: "media",
                                         }}
                                         onInit={(evt, editor) =>
                                             (editorRef.current = editor)

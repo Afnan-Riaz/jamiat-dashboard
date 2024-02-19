@@ -7,6 +7,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import CancelIcon from "@mui/icons-material/Close";
+
 import mongoose from "mongoose";
 import {
     GridRowsProp,
@@ -20,25 +21,12 @@ import {
     GridRowId,
     GridRowModel,
     GridRowEditStopReasons,
-    useGridApiContext,
-    GridRenderEditCellParams,
-    GridColTypeDef,
     GridCellEditStopReasons,
     GridRowSpacingParams,
     GridCellParams,
-    GridRowClassNameParams,
 } from "@mui/x-data-grid";
 import Loading from "@/app/loading";
-import {
-    Alert,
-    AlertProps,
-    InputBase,
-    InputBaseProps,
-    Paper,
-    Popper,
-    Snackbar,
-    styled,
-} from "@mui/material";
+import { Alert, AlertProps, Snackbar, styled } from "@mui/material";
 import Image from "next/image";
 import { IconUpload } from "@tabler/icons-react";
 
@@ -58,7 +46,7 @@ const HiddenInput = styled("input")({
 
 const getData = async () => {
     const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/events`
     ).then((response) => response.json());
     return data;
 };
@@ -82,7 +70,7 @@ const uploadImage = async (file: File) => {
 };
 const setData = async (data: GridRowModel) => {
     const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/events`,
         {
             method: "PUT",
             headers: {
@@ -96,7 +84,7 @@ const setData = async (data: GridRowModel) => {
 };
 const deleteData = async (data: object) => {
     const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/team`,
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/events`,
         {
             method: "DELETE",
             headers: {
@@ -126,15 +114,18 @@ function EditToolbar(props: EditToolbarProps) {
             {
                 _id,
                 image: "",
-                name: "",
-                designation: "",
-                content: "",
+                title: "",
+                content:"",
+                date: new Date(),
                 isNew: true,
             },
         ]);
         setRowModesModel((oldModel) => ({
             ...oldModel,
-            [_id.toString()]: { mode: GridRowModes.Edit, fieldToFocus: "name" },
+            [_id.toString()]: {
+                mode: GridRowModes.Edit,
+                fieldToFocus: "image",
+            },
         }));
     };
 
@@ -155,87 +146,12 @@ function isKeyboardEvent(event: any): event is React.KeyboardEvent {
     return !!event.key;
 }
 
-function EditTextarea(props: GridRenderEditCellParams<any, string>) {
-    const { id, field, value, colDef, hasFocus } = props;
-    const [valueState, setValueState] = React.useState(value);
-    const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>();
-    const [inputRef, setInputRef] = React.useState<HTMLInputElement | null>(
-        null
-    );
-    const apiRef = useGridApiContext();
-
-    React.useLayoutEffect(() => {
-        if (hasFocus && inputRef) {
-            inputRef.focus();
-        }
-    }, [hasFocus, inputRef]);
-
-    const handleRef = React.useCallback((el: HTMLElement | null) => {
-        setAnchorEl(el);
-    }, []);
-
-    const handleChange = React.useCallback<
-        NonNullable<InputBaseProps["onChange"]>
-    >(
-        (event) => {
-            const newValue = event.target.value;
-            setValueState(newValue);
-            apiRef.current.setEditCellValue(
-                { id, field, value: newValue, debounceMs: 200 },
-                event
-            );
-        },
-        [apiRef, field, id]
-    );
-
-    return (
-        <div style={{ position: "relative", alignSelf: "flex-start" }}>
-            <div
-                ref={handleRef}
-                style={{
-                    height: 1,
-                    width: colDef.computedWidth,
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                }}
-            />
-            {anchorEl && (
-                <Popper
-                    open
-                    anchorEl={anchorEl}
-                    placement="bottom-start"
-                    style={{ zIndex: "20" }}
-                >
-                    <Paper
-                        elevation={1}
-                        sx={{ p: 1, minWidth: colDef.computedWidth }}
-                    >
-                        <InputBase
-                            multiline
-                            rows={4}
-                            value={valueState}
-                            sx={{ textarea: { resize: "both" }, width: "100%" }}
-                            onChange={handleChange}
-                            inputRef={(ref) => setInputRef(ref)}
-                        />
-                    </Paper>
-                </Popper>
-            )}
-        </div>
-    );
-}
-
-const multilineColumn: GridColTypeDef = {
-    type: "string",
-    renderEditCell: (params) => <EditTextarea {...params} />,
-};
-
-export default function Team() {
+export default function Events() {
     const [rows, setRows] = React.useState<GridRowsProp>([]);
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
     );
+    const [date, setDate] = React.useState<string>("");
     const [dataFetched, setDataFetched] = React.useState<boolean>(false);
     const [snackbar, setSnackbar] = React.useState<Pick<
         AlertProps,
@@ -245,7 +161,7 @@ export default function Team() {
     const handleCloseSnackbar = () => setSnackbar(null);
     React.useEffect(() => {
         async function getRows() {
-            let initialRows: GridRowsProp = await getData();
+            const initialRows: GridRowsProp = await getData();
             setRows(initialRows);
             setDataFetched(true);
         }
@@ -260,6 +176,11 @@ export default function Team() {
             setFileState(files[0]);
         }
     };
+    const parseDate=(date:GridCellParams)=>{
+        const dt=new Date(date.toString());
+        dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
+        return dt.toISOString().slice(0,-1);
+    }
     const handleRowEditStop: GridEventListener<"rowEditStop"> = (
         params,
         event
@@ -268,7 +189,12 @@ export default function Team() {
             event.defaultMuiPrevented = true;
         }
     };
-
+    const getRowSpacing = React.useCallback((params: GridRowSpacingParams) => {
+        return {
+            top: params.isFirstVisible ? 0 : 5,
+            bottom: params.isLastVisible ? 0 : 5,
+        };
+    }, []);
     const handleEditClick = (id: GridRowId) => () => {
         setRowModesModel({
             ...rowModesModel,
@@ -287,7 +213,7 @@ export default function Team() {
         try {
             await deleteData({ _id: id });
             setSnackbar({
-                children: "Item successfully Deleted.",
+                children: "Event successfully Deleted.",
                 severity: "success",
             });
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -313,8 +239,12 @@ export default function Team() {
 
     const processRowUpdate = async (newRow: GridRowModel) => {
         if (fileState && fileState.type.startsWith("image/")) {
-            newRow.image = "/" + fileState?.name;
+            newRow.description = "/" + fileState?.name;
             await uploadImage(fileState);
+        }
+        if (date !== "") {
+            const dt = new Date(date);
+            newRow.date = dt;
         }
         const updatedRow = { ...newRow, isNew: false };
         setRows(
@@ -324,7 +254,7 @@ export default function Team() {
         );
         await setData(newRow);
         setSnackbar({
-            children: "Member successfully saved.",
+            children: "Event successfully saved.",
             severity: "success",
         });
         return updatedRow;
@@ -340,15 +270,7 @@ export default function Team() {
     const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
         setRowModesModel(newRowModesModel);
     };
-    const getRowClassName=(params:GridRowClassNameParams)=>{
-        return params.row.type==="president"?"main":""
-    }
-    const getRowSpacing = React.useCallback((params: GridRowSpacingParams) => {
-        return {
-          top: params.isFirstVisible ? 0 : 5,
-          bottom: params.isLastVisible ? 0 : 5,
-        };
-      }, []);
+
     const columns: GridColDef[] = [
         {
             field: "image",
@@ -393,21 +315,24 @@ export default function Team() {
                 />
             ),
         },
-        { field: "name", headerName: "Name", width: 180, editable: true },
+        { field: "title", headerName: "Title", width: 300, editable: true },
+        { field: "content", headerName: "Venue", width: 400, editable: true },
         {
-            field: "designation",
-            headerName: "Designation",
-            type: "string",
-            width: 140,
+            field: "date",
+            headerName: "Date and Time",
+            width: 180,
             editable: true,
-        },
-        {
-            field: "content",
-            headerName: "Message",
-            type: "string",
-            width: 400,
-            editable: true,
-            ...multilineColumn,
+            renderCell: (params) =>
+                new Date(params.value).toLocaleString("en-us"),
+            renderEditCell: (params) => (
+                <input
+                    type="datetime-local"
+                    name="date"
+                    id="date"
+                    defaultValue={parseDate(params.value)}
+                    onChange={(e) => setDate(e.target.value)}
+                />
+            ),
         },
         {
             field: "actions",
@@ -415,7 +340,7 @@ export default function Team() {
             headerName: "Actions",
             width: 100,
             cellClassName: "actions",
-            getActions: ({ id,row }) => {
+            getActions: ({ id }) => {
                 const isInEditMode =
                     rowModesModel[id]?.mode === GridRowModes.Edit;
 
@@ -440,7 +365,8 @@ export default function Team() {
                         />,
                     ];
                 }
-                const actions=[
+
+                return [
                     <GridActionsCellItem
                         key={0}
                         icon={<EditIcon />}
@@ -449,18 +375,14 @@ export default function Team() {
                         onClick={handleEditClick(id)}
                         color="inherit"
                     />,
+                    <GridActionsCellItem
+                        key={1}
+                        icon={<DeleteIcon />}
+                        label="Delete"
+                        onClick={handleDeleteClick(id)}
+                        color="inherit"
+                    />,
                 ];
-                if(row.type!=='president'){
-                actions.push(
-                <GridActionsCellItem
-                    key={1}
-                    icon={<DeleteIcon />}
-                    label="Delete"
-                    onClick={handleDeleteClick(id)}
-                    color="inherit"
-                />
-                )}
-                return actions;
             },
         },
     ];
@@ -475,9 +397,6 @@ export default function Team() {
                 "& .textPrimary": {
                     color: "text.primary",
                 },
-                '& .main': {
-                    borderBlock:"2px solid red",
-                },
             }}
         >
             {dataFetched ? (
@@ -486,9 +405,8 @@ export default function Team() {
                         rows={rows}
                         columns={columns}
                         editMode="row"
-                        rowHeight={100}
                         getRowSpacing={getRowSpacing}
-                        getRowClassName={getRowClassName}
+                        rowHeight={100}
                         rowModesModel={rowModesModel}
                         onRowModesModelChange={handleRowModesModelChange}
                         onRowEditStop={handleRowEditStop}

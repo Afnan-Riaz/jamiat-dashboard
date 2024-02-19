@@ -1,5 +1,5 @@
 import {
-  IconPointFilled, IconUserCircle,IconHome, IconLayoutGrid, IconTable, IconSourceCode
+  IconPointFilled, IconUserCircle,IconHome, IconSourceCode
 } from "@tabler/icons-react";
 
 import { uniqueId } from "lodash";
@@ -41,6 +41,12 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
+    title: "Inspiration",
+    icon: IconPointFilled,
+    href: "/inspirations",
+  },
+  {
+    id: uniqueId(),
     title: "Books",
     icon: IconPointFilled,
     href: "/books",
@@ -74,6 +80,12 @@ const Menuitems = [
     title: "Press Releases",
     icon: IconPointFilled,
     href: "/releases",
+  },
+  {
+    id: uniqueId(),
+    title: "Events",
+    icon: IconPointFilled,
+    href: "/events",
   },
   {
     id: uniqueId(),

@@ -561,33 +561,35 @@ export default function Edit({ params }: any) {
                                             }}
                                         />
                                     </Stack>
-                                    <DataGrid
-                                        sx={{ overflowX: "scroll" }}
-                                        rows={rows}
-                                        columns={columns}
-                                        editMode="row"
-                                        onRowEditStop={handleRowEditStop}
-                                        rowHeight={80}
-                                        getRowSpacing={getRowSpacing}
-                                        rowModesModel={rowModesModel}
-                                        onRowModesModelChange={
-                                            handleRowModesModelChange
-                                        }
-                                        columnBuffer={2}
-                                        columnThreshold={2}
-                                        slots={{
-                                            toolbar: EditToolbar,
-                                        }}
-                                        processRowUpdate={processRowUpdate}
-                                        onProcessRowUpdateError={handleProcessRowUpdateError}
-                                        slotProps={{
-                                            toolbar: {
-                                                setRows,
-                                                setRowModesModel,
-                                            },
-                                        }}
-                                        getRowId={(row) => row._id.toString()}
-                                    />
+                                    <BaseCard title="Activity Album">
+                                        <DataGrid
+                                            sx={{ overflowX: "scroll" }}
+                                            rows={rows}
+                                            columns={columns}
+                                            editMode="row"
+                                            onRowEditStop={handleRowEditStop}
+                                            rowHeight={80}
+                                            getRowSpacing={getRowSpacing}
+                                            rowModesModel={rowModesModel}
+                                            onRowModesModelChange={
+                                                handleRowModesModelChange
+                                            }
+                                            columnBuffer={2}
+                                            columnThreshold={2}
+                                            slots={{
+                                                toolbar: EditToolbar,
+                                            }}
+                                            processRowUpdate={processRowUpdate}
+                                            onProcessRowUpdateError={handleProcessRowUpdateError}
+                                            slotProps={{
+                                                toolbar: {
+                                                    setRows,
+                                                    setRowModesModel,
+                                                },
+                                            }}
+                                            getRowId={(row) => row._id.toString()}
+                                        />
+                                    </BaseCard>
                                 </Stack>
                                 <br />
                                 <Stack direction={"row"} spacing={2}>
