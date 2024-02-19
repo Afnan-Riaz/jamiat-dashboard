@@ -193,26 +193,6 @@ export default function Releases() {
             headerName: "Actions",
             width: 100,
             cellClassName: "actions",
-            
-            // filter: true,
-            setCellProps: () => ({
-                style: {
-                    whiteSpace: "nowrap",
-                    position: "sticky",
-                    left: "0",
-                    background: "white",
-                    zIndex: 100,
-                },
-            }),
-            setCellHeaderProps: () => ({
-                style: {
-                    whiteSpace: "nowrap",
-                    position: "sticky",
-                    left: 0,
-                    background: "white",
-                    zIndex: 101,
-                },
-            }),
             getActions: ({ id }) => {
                 return [
                     <GridActionsCellItem
