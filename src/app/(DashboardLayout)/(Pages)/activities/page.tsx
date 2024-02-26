@@ -233,7 +233,6 @@ export default function Activites() {
             {dataFetched ? (
                 <>
                     <DataGrid
-                        sx={{ overflowX: "scroll" }}
                         rows={rows}
                         columns={columns}
                         editMode="row"

@@ -53,7 +53,6 @@ const getData = async () => {
 const uploadImage = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
-
     fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
         method: "POST",
         body: formData,
@@ -239,7 +238,7 @@ export default function Events() {
 
     const processRowUpdate = async (newRow: GridRowModel) => {
         if (fileState && fileState.type.startsWith("image/")) {
-            newRow.description = "/" + fileState?.name;
+            newRow.image = "/" + fileState?.name;
             await uploadImage(fileState);
         }
         if (date !== "") {

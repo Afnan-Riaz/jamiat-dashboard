@@ -563,7 +563,6 @@ export default function Edit({ params }: any) {
                                     </Stack>
                                     <BaseCard title="Activity Album">
                                         <DataGrid
-                                            sx={{ overflowX: "scroll" }}
                                             rows={rows}
                                             columns={columns}
                                             editMode="row"

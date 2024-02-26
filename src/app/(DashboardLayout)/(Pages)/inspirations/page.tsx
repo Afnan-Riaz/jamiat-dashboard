@@ -248,7 +248,6 @@ export default function Inspirations() {
             {dataFetched ? (
                 <>
                     <DataGrid
-                        sx={{ overflowX: "scroll" }}
                         rows={rows}
                         columns={columns}
                         editMode="row"

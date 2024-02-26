@@ -29,7 +29,10 @@ const ObjectId = mongoose.Types.ObjectId;
 const getData = async () => {
     const data = await fetch(
         `${process.env.NEXT_PUBLIC_DOMAIN}/api/users`
-    ).then((response) => response.json());
+    ).then(async (response) => {
+        const data = await response.json();
+        return { status: response.status, message: data.message };
+    });
     return data;
 };
 const setData = async (data: GridRowModel) => {
@@ -91,6 +94,7 @@ function EditToolbar(props: EditToolbarProps) {
 }
 export default function Users() {
     const [rows, setRows] = React.useState<GridRowsProp>([]);
+    const [alert, setAlert] = React.useState();
     const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
         {}
     );
@@ -102,10 +106,13 @@ export default function Users() {
     const handleCloseSnackbar = () => setSnackbar(null);
     React.useEffect(() => {
         async function getRows() {
-            const initialRows: GridRowsProp = await getData();
-
-            setRows(initialRows);
-            setDataFetched(true);
+            const initialRows: any = await getData();
+            if (initialRows?.status === 401) {
+                setAlert(initialRows.message);
+            } else {
+                setRows(initialRows.message);
+                setDataFetched(true);
+            }
         }
         getRows();
     }, []);
@@ -133,21 +140,20 @@ export default function Users() {
         });
     };
 
-    const handleDeleteClick = (id: GridRowId) => async() => {
-        try{
-        await deleteData({_id:id});
-        setSnackbar({
-            children: "User successfully Deleted.",
-            severity: "success",
-        });
-        setRows(rows.filter((row) => row._id.toString() !== id));
-    }
-    catch(error){
-        setSnackbar({
-            children: "Could not delete data.",
-            severity: "error",
-        });
-    }
+    const handleDeleteClick = (id: GridRowId) => async () => {
+        try {
+            await deleteData({ _id: id });
+            setSnackbar({
+                children: "User successfully Deleted.",
+                severity: "success",
+            });
+            setRows(rows.filter((row) => row._id.toString() !== id));
+        } catch (error) {
+            setSnackbar({
+                children: "Could not delete data.",
+                severity: "error",
+            });
+        }
     };
 
     const handleCancelClick = (id: GridRowId) => () => {
@@ -164,7 +170,11 @@ export default function Users() {
 
     const processRowUpdate = async (newRow: GridRowModel) => {
         const updatedRow = { ...newRow, isNew: false };
-        setRows(rows.map((row) => (row._id.toString() === newRow._id ? updatedRow : row)));
+        setRows(
+            rows.map((row) =>
+                row._id.toString() === newRow._id ? updatedRow : row
+            )
+        );
         await setData(newRow);
         setSnackbar({
             children: "User successfully saved.",
@@ -208,9 +218,6 @@ export default function Users() {
             type: "singleSelect",
             valueOptions: ["Select One", "Admin", "Editor", "Guest"],
             valueGetter: (params) => params.value || "Select One",
-            // valueSetter: (params) => {
-            //     return params.value === "Select One" ? "" : params.value;
-            // },
         },
         {
             field: "actions",
@@ -277,7 +284,9 @@ export default function Users() {
                 },
             }}
         >
-            {dataFetched ? (
+            {alert ? (
+                <Alert severity="error">{alert}</Alert>
+            ) : dataFetched ? (
                 <>
                     <DataGrid
                         rows={rows}

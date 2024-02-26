@@ -29,6 +29,12 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
+    title: "Homepage",
+    icon: IconPointFilled,
+    href: "/homepage",
+  },
+  {
+    id: uniqueId(),
     title: "Team",
     icon: IconPointFilled,
     href: "/team",

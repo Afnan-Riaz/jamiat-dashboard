@@ -197,7 +197,6 @@ export default function Metadata() {
             {dataFetched ? (
                 <>
                     <DataGrid
-                        sx={{ overflowX: "scroll" }}
                         rows={rows}
                         columns={columns}
                         editMode="row"

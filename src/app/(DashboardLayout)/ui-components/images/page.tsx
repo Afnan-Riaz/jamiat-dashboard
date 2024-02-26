@@ -4,13 +4,13 @@ import BaseCard from '@/app/(DashboardLayout)/components/shared/BaseCard';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import Image from "next/image";
 
-import img1 from "public/images/backgrounds/u1.jpg";
-import img2 from "public/images/backgrounds/u3.jpg";
-import img3 from "public/images/backgrounds/u4.jpg";
-import img4 from "public/images/big/img5.jpg";
-import img5 from "public/images/big/img6.jpg";
-import img6 from "public/images/big/img7.jpg";
-import img7 from "public/images/big/img8.jpg";
+import img1 from "/public/images/backgrounds/u1.jpg";
+import img2 from "/public/images/backgrounds/u3.jpg";
+import img3 from "/public/images/backgrounds/u4.jpg";
+import img4 from "/public/images/big/img5.jpg";
+import img5 from "/public/images/big/img6.jpg";
+import img6 from "/public/images/big/img7.jpg";
+import img7 from "/public/images/big/img8.jpg";
 const itemData = [
   {
     img: img1 ,

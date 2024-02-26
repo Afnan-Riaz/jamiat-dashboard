@@ -114,6 +114,7 @@ const SalesOverview = () => {
         series={seriessalesoverview}
         type="bar"
         height="295px"
+        width={"1000px"}
       />
     </BaseCard>
   );

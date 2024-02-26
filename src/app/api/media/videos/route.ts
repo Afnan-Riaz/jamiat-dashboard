@@ -1,6 +1,6 @@
 import { connectDB, disconnectDB } from "@/utils/db";
 import { Media } from "@/utils/model/mediaModel";
-import mongoose, { Document } from "mongoose";
+import { Document } from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function GET(): Promise<NextResponse> {

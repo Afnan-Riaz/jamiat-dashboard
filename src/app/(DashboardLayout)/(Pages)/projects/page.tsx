@@ -224,7 +224,6 @@ export default function Projects() {
             {dataFetched ? (
                 <>
                     <DataGrid
-                        sx={{ overflowX: "scroll" }}
                         rows={rows}
                         columns={columns}
                         editMode="row"
