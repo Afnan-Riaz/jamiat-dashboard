@@ -25,13 +25,13 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
-    subheader:"Pages"
-  },
-  {
-    id: uniqueId(),
     title: "Homepage",
     icon: IconPointFilled,
     href: "/homepage",
+  },
+  {
+    id: uniqueId(),
+    subheader:"About Us"
   },
   {
     id: uniqueId(),
@@ -53,6 +53,10 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
+    subheader:"Literature"
+  },
+  {
+    id: uniqueId(),
     title: "Books",
     icon: IconPointFilled,
     href: "/books",
@@ -71,9 +75,19 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
+    subheader:"Activities and Events"
+  },
+  {
+    id: uniqueId(),
     title: "Activities",
     icon: IconPointFilled,
     href: "/activities",
+  },
+  {
+    id: uniqueId(),
+    title: "Events",
+    icon: IconPointFilled,
+    href: "/events",
   },
   {
     id: uniqueId(),
@@ -83,15 +97,14 @@ const Menuitems = [
   },
   {
     id: uniqueId(),
+    subheader:"Media and News"
+  },
+
+  {
+    id: uniqueId(),
     title: "Press Releases",
     icon: IconPointFilled,
     href: "/releases",
-  },
-  {
-    id: uniqueId(),
-    title: "Events",
-    icon: IconPointFilled,
-    href: "/events",
   },
   {
     id: uniqueId(),
@@ -111,36 +124,6 @@ const Menuitems = [
     icon: IconPointFilled,
     href: "/audio",
   },
-  // {
-  //   id: uniqueId(),
-  //   title: "Forms",
-  //   icon: IconTable,
-  //   href: "/ui-components/forms",
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: "Buttons",
-  //   icon: IconCircleDot,
-  //   href: "/ui-components/buttons",
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: "Images",
-  //   icon: IconPhoto,
-  //   href: "/ui-components/images",
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: "Pagination",
-  //   icon: IconUser,
-  //   href: "/ui-components/pagination",
-  // },
-  // {
-  //   id: uniqueId(),
-  //   title: "Tables",
-  //   icon: IconLayoutGrid,
-  //   href: "/ui-components/table",
-  // },
 ];
 
 export default Menuitems;

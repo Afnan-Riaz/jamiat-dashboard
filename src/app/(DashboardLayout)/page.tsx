@@ -5,7 +5,6 @@ import PageContainer from '@/app/(DashboardLayout)/components/container/PageCont
 import SalesOverview from '@/app/(DashboardLayout)/components/dashboard/SalesOverview';
 import DailyActivity from '@/app/(DashboardLayout)/components/dashboard/DailyActivity';
 import ProductPerformance from '@/app/(DashboardLayout)/components/dashboard/ProductPerformance';
-import BlogCard from '@/app/(DashboardLayout)/components/dashboard/Blog';
 
 const Dashboard = () => {
   return (
@@ -21,9 +20,6 @@ const Dashboard = () => {
         </Grid>
         <Grid item xs={12} lg={8}>
           <ProductPerformance />
-        </Grid>
-        <Grid item xs={12} lg={12}>
-          <BlogCard />
         </Grid>
       </Grid>
     </Box>

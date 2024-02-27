@@ -6,7 +6,7 @@ const Footer = () => {
   return (
     <Box sx={{ pt: 6, textAlign: "center" }}>
       <Typography>
-        © 2023 All rights reserved by&nbsp;
+        © 2024 All rights reserved by&nbsp;
         <Link href="">
           Islami Jamiat Talaba
         </Link>
@@ -16,4 +16,3 @@ const Footer = () => {
 };
 
 export default Footer;
-    
