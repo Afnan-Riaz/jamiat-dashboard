@@ -2,20 +2,16 @@ import mongoose from "mongoose";
 const { user, password } = process.env;
 const connectionStr: string = `mongodb+srv://${user}:${password}@cluster0.ovilnum.mongodb.net/Jamiat?retryWrites=true&w=majority`;
 
+const connection = {isConnected:0}
+
 const connectDB = async () => {
-    try {
-        await mongoose.connect(connectionStr);
-        console.log("Connected to MongoDB");
-    } catch (error) {
-        console.error("Error connecting to MongoDB:", error);
+    if (connection.isConnected){
+        return;
     }
-};
-const disconnectDB = async () => {
-    try {
-        await mongoose.disconnect();
-        console.log("Disconnected from MongoDB");
-    } catch (error) {
-        console.error("Error disconnecting from MongoDB:", error);
-    }
-};
-export { connectDB, disconnectDB };
+    const db = await mongoose.
+        connect(connectionStr)
+
+    connection.isConnected = db.connections[0].readyState
+}
+
+export { connectDB};

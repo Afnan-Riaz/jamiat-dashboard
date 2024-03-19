@@ -1,4 +1,4 @@
-import { connectDB, disconnectDB } from "@/utils/db";
+import { connectDB } from "@/utils/db";
 import { Blogs } from "@/utils/model/blogsModel";
 import mongoose, { Document } from "mongoose";
 import { NextResponse } from "next/server";

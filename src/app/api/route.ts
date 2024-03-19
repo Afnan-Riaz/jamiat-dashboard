@@ -1,4 +1,4 @@
-import { connectDB, disconnectDB } from "@/utils/db";
+import { connectDB} from "@/utils/db";
 import { Page } from "@/utils/model/pageModel";
 import mongoose, { Document } from "mongoose";
 import { NextResponse } from "next/server";
@@ -11,8 +11,6 @@ export async function GET(): Promise<NextResponse> {
     } catch (error) {
         console.error("Error fetching data:", error);
         throw new Error("Internal Server Error");
-    } finally {
-        await disconnectDB();
     }
 }
 
@@ -32,8 +30,6 @@ export async function PUT(request: Request): Promise<NextResponse> {
         return NextResponse.json({ result, success: true });
     } catch (error) {
         return NextResponse.json({ error, success: false });
-    } finally {
-        await disconnectDB();
     }
 }
 
@@ -51,7 +47,5 @@ export async function DELETE(request: Request): Promise<NextResponse> {
         throw Error("Object not found");
     } catch (error) {
         return NextResponse.json({ error, success: false });
-    } finally {
-        await disconnectDB();
     }
 }

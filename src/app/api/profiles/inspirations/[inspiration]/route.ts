@@ -1,4 +1,4 @@
-import { connectDB, disconnectDB } from "@/utils/db";
+import { connectDB } from "@/utils/db";
 import { Profiles } from "@/utils/model/profilesModel";
 import { NextResponse } from "next/server";
 
@@ -15,8 +15,5 @@ export async function GET(
     } catch (error) {
         console.error("Error fetching data:", error);
         throw new Error("Internal Server Error");
-    }
-    finally{
-        await disconnectDB();
     }
 }
