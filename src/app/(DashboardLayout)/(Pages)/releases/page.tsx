@@ -144,27 +144,6 @@ export default function Releases() {
             editable: false,
         },
         {
-            field: "meta_title",
-            headerName: "Meta Title",
-            type: "string",
-            width: 160,
-            editable: false,
-        },
-        {
-            field: "meta_description",
-            headerName: "Meta Description",
-            type: "string",
-            width: 150,
-            editable: false,
-        },
-        {
-            field: "canonical",
-            headerName: "Canonical Link",
-            type: "string",
-            width: 180,
-            editable: false,
-        },
-        {
             field: "slug",
             headerName: "Slug",
             type: "string",

@@ -160,7 +160,6 @@ export default function Audio() {
     React.useEffect(() => {
         async function getRows() {
             const initialRows: GridRowsProp = await getData();
-            console.log(initialRows)
             setRows(initialRows);
             setDataFetched(true);
         }
@@ -293,11 +292,20 @@ export default function Audio() {
                 </Button>
             ),
             renderCell: (params) => (
-                <audio style={{width:"100%"}} controls src={`/audio${params.value}`}></audio>
+                <audio
+                    style={{ width: "100%" }}
+                    controls
+                    src={`/audio${params.value}`}
+                ></audio>
             ),
         },
         { field: "title", headerName: "Title", width: 200, editable: true },
-        { field: "description", headerName: "Voice of", width: 200, editable: true },
+        {
+            field: "description",
+            headerName: "Voice of",
+            width: 120,
+            editable: true,
+        },
         {
             field: "date",
             headerName: "Date",

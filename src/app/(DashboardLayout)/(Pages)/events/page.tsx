@@ -114,7 +114,7 @@ function EditToolbar(props: EditToolbarProps) {
                 _id,
                 image: "",
                 title: "",
-                content:"",
+                content: "",
                 date: new Date(),
                 isNew: true,
             },
@@ -175,11 +175,11 @@ export default function Events() {
             setFileState(files[0]);
         }
     };
-    const parseDate=(date:GridCellParams)=>{
-        const dt=new Date(date.toString());
+    const parseDate = (date: GridCellParams) => {
+        const dt = new Date(date.toString());
         dt.setMinutes(dt.getMinutes() - dt.getTimezoneOffset());
-        return dt.toISOString().slice(0,-1);
-    }
+        return dt.toISOString().slice(0, -1);
+    };
     const handleRowEditStop: GridEventListener<"rowEditStop"> = (
         params,
         event
@@ -314,8 +314,8 @@ export default function Events() {
                 />
             ),
         },
-        { field: "title", headerName: "Title", width: 300, editable: true },
-        { field: "content", headerName: "Venue", width: 400, editable: true },
+        { field: "title", headerName: "Title", width: 250, editable: true },
+        { field: "content", headerName: "Venue", width: 200, editable: true },
         {
             field: "date",
             headerName: "Date and Time",

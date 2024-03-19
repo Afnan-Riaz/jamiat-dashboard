@@ -145,7 +145,7 @@ export default function Metadata() {
             field: "content",
             headerName: "Content",
             type: "string",
-            width: 200,
+            width: 160,
             editable: false,
         },
         {

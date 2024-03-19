@@ -21,20 +21,23 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const getData = async () => {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/inspirations`).then(
-        (response) => response.json()
-    );
+    const data = await fetch(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/inspirations`
+    ).then((response) => response.json());
     return data;
 };
 
 const deleteData = async (data: object) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/inspirations`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    }).then((response) => response.json());
+    const result = await fetch(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/inspirations`,
+        {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        }
+    ).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while deleting data");
 };
@@ -147,50 +150,11 @@ export default function Inspirations() {
             editable: false,
         },
         {
-            field: "meta_title",
-            headerName: "Meta Title",
-            type: "string",
-            width: 150,
-            editable: false,
-        },
-        {
-            field: "meta_description",
-            headerName: "Meta Description",
-            type: "string",
-            width: 150,
-            editable: false,
-        },
-        {
-            field: "canonical",
-            headerName: "Canonical Link",
-            type: "string",
-            width: 160,
-            editable: false,
-        },
-        {
             field: "slug",
             headerName: "Slug",
             type: "string",
             width: 120,
             editable: false,
-        },
-        {
-            field: "dob",
-            headerName: "DOB",
-            type: "string",
-            width: 90,
-            editable: false,
-            renderCell: (params) =>
-                new Date(params.value).toLocaleDateString("en-us"),
-        },
-        {
-            field: "dod",
-            headerName: "DOD",
-            type: "string",
-            width: 90,
-            editable: false,
-            renderCell: (params) =>(
-                params.value?new Date(params.value).toLocaleDateString("en-us"):"Alive"),
         },
         {
             field: "content",

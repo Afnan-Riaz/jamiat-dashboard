@@ -21,20 +21,23 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const getData = async () => {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/activities`).then(
-        (response) => response.json()
-    );
+    const data = await fetch(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/activities`
+    ).then((response) => response.json());
     return data;
 };
 
 const deleteData = async (data: object) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/activities`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    }).then((response) => response.json());
+    const result = await fetch(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/activities`,
+        {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        }
+    ).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while deleting data");
 };
@@ -144,28 +147,7 @@ export default function Activites() {
             field: "content",
             headerName: "Description",
             type: "string",
-            width: 180,
-            editable: false,
-        },
-        {
-            field: "meta_title",
-            headerName: "Meta Title",
-            type: "string",
-            width: 160,
-            editable: false,
-        },
-        {
-            field: "meta_description",
-            headerName: "Meta Description",
-            type: "string",
-            width: 150,
-            editable: false,
-        },
-        {
-            field: "canonical",
-            headerName: "Canonical Link",
-            type: "string",
-            width: 180,
+            width: 200,
             editable: false,
         },
         {

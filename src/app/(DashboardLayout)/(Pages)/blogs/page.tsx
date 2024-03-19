@@ -21,9 +21,9 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const getData = async () => {
-    const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs`).then(
-        (response) => response.json()
-    );
+    const data = await fetch(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs`
+    ).then((response) => response.json());
     return data;
 };
 
@@ -137,28 +137,7 @@ export default function Blogs() {
         {
             field: "title",
             headerName: "Blog Title",
-            width: 180,
-            editable: false,
-        },
-        {
-            field: "meta_title",
-            headerName: "Meta Title",
-            type: "string",
-            width: 150,
-            editable: false,
-        },
-        {
-            field: "meta_description",
-            headerName: "Meta Description",
-            type: "string",
-            width: 150,
-            editable: false,
-        },
-        {
-            field: "canonical",
-            headerName: "Canonical Link",
-            type: "string",
-            width: 180,
+            width: 200,
             editable: false,
         },
         {
@@ -172,7 +151,7 @@ export default function Blogs() {
             field: "date",
             headerName: "Date",
             type: "string",
-            width: 90,
+            width: 120,
             editable: false,
             renderCell: (params) =>
                 new Date(params.value).toLocaleDateString("en-us"),

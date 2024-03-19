@@ -1,25 +1,20 @@
 'use client'
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, Typography } from '@mui/material';
 import PageContainer from '@/app/(DashboardLayout)/components/container/PageContainer';
-// components
-import SalesOverview from '@/app/(DashboardLayout)/components/dashboard/SalesOverview';
-import DailyActivity from '@/app/(DashboardLayout)/components/dashboard/DailyActivity';
-import ProductPerformance from '@/app/(DashboardLayout)/components/dashboard/ProductPerformance';
+import Analytics from './components/dashboard/Analytics';
+import Recent from './components/dashboard/Recent';
 
 const Dashboard = () => {
   return (
     <PageContainer title="Dashboard" description="this is Dashboard">
     <Box mt={3}>
+      <Typography variant='h1' mb={"30px"} textAlign={"center"}>Welcome!</Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} lg={12}>
-          <SalesOverview />
+        <Grid item xs={12}>
+          <Analytics />
         </Grid>
-        {/* ------------------------- row 1 ------------------------- */}
-        <Grid item xs={12} lg={4}>
-          <DailyActivity />
-        </Grid>
-        <Grid item xs={12} lg={8}>
-          <ProductPerformance />
+        <Grid item xs={12}>
+          <Recent />
         </Grid>
       </Grid>
     </Box>

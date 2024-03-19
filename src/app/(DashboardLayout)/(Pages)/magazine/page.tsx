@@ -316,12 +316,12 @@ export default function Magazine() {
                 />
             ),
         },
-        { field: "title", headerName: "Title", width: 300, editable: true },
-        { field: "link", headerName: "Link", width: 400, editable: true },
+        { field: "title", headerName: "Title", width: 200, editable: true },
+        { field: "link", headerName: "Link", width: 300, editable: true },
         {
             field: "date",
             headerName: "Date",
-            width: 200,
+            width: 150,
             editable: true,
             renderCell: (params) =>
                 new Date(params.value).toLocaleDateString("en-us", {

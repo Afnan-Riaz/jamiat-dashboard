@@ -340,15 +340,15 @@ export default function Team() {
     const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
         setRowModesModel(newRowModesModel);
     };
-    const getRowClassName=(params:GridRowClassNameParams)=>{
-        return params.row.type==="president"?"main":""
-    }
+    const getRowClassName = (params: GridRowClassNameParams) => {
+        return params.row.type === "president" ? "main" : "";
+    };
     const getRowSpacing = React.useCallback((params: GridRowSpacingParams) => {
         return {
-          top: params.isFirstVisible ? 0 : 5,
-          bottom: params.isLastVisible ? 0 : 5,
+            top: params.isFirstVisible ? 0 : 5,
+            bottom: params.isLastVisible ? 0 : 5,
         };
-      }, []);
+    }, []);
     const columns: GridColDef[] = [
         {
             field: "image",
@@ -405,7 +405,7 @@ export default function Team() {
             field: "content",
             headerName: "Message",
             type: "string",
-            width: 400,
+            width: 300,
             editable: true,
             ...multilineColumn,
         },
@@ -415,7 +415,7 @@ export default function Team() {
             headerName: "Actions",
             width: 100,
             cellClassName: "actions",
-            getActions: ({ id,row }) => {
+            getActions: ({ id, row }) => {
                 const isInEditMode =
                     rowModesModel[id]?.mode === GridRowModes.Edit;
 
@@ -440,7 +440,7 @@ export default function Team() {
                         />,
                     ];
                 }
-                const actions=[
+                const actions = [
                     <GridActionsCellItem
                         key={0}
                         icon={<EditIcon />}
@@ -450,16 +450,17 @@ export default function Team() {
                         color="inherit"
                     />,
                 ];
-                if(row.type!=='president'){
-                actions.push(
-                <GridActionsCellItem
-                    key={1}
-                    icon={<DeleteIcon />}
-                    label="Delete"
-                    onClick={handleDeleteClick(id)}
-                    color="inherit"
-                />
-                )}
+                if (row.type !== "president") {
+                    actions.push(
+                        <GridActionsCellItem
+                            key={1}
+                            icon={<DeleteIcon />}
+                            label="Delete"
+                            onClick={handleDeleteClick(id)}
+                            color="inherit"
+                        />
+                    );
+                }
                 return actions;
             },
         },
@@ -475,8 +476,8 @@ export default function Team() {
                 "& .textPrimary": {
                     color: "text.primary",
                 },
-                '& .main': {
-                    borderBlock:"2px solid red",
+                "& .main": {
+                    borderBlock: "2px solid red",
                 },
             }}
         >
