@@ -27,7 +27,7 @@ const Recent = () => {
             <Grid container spacing={3}>
                 {recents ? (
                     recents.map((recent: any, index: number) => (
-                        <Grid item xs={6} lg={3}>
+                        <Grid key={index} item xs={6} lg={3}>
                             <DashboardCard
                                 subtitle={recent.type}
                                 title={recent.date}
