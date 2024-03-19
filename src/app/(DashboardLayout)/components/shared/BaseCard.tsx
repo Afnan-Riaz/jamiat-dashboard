@@ -13,7 +13,7 @@ type Props = {
   middlecontent?: string | JSX.Element;
 };
 
-const DashboardCard = ({
+const BaseCard = ({
   title,
   subtitle,
   children,
@@ -68,4 +68,4 @@ const DashboardCard = ({
   );
 };
 
-export default DashboardCard;
+export default BaseCard;
