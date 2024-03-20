@@ -188,6 +188,10 @@ export default function Edit({ params }: any) {
 
         input.click();
     };
+    const handleCancel = () => {
+        router.back();
+    };
+
     const handleSubmit = async () => {
         setIsLoaded(false);
         setRow((prevRow) => ({
@@ -206,7 +210,7 @@ export default function Edit({ params }: any) {
                 severity: "success",
             });
             setTimeout(() => {
-                router.push("/blogs");
+                router.back();
             }, 3000);
         } catch (error) {
             setIsLoaded(true);
@@ -367,7 +371,7 @@ export default function Edit({ params }: any) {
                                     >
                                         Save
                                     </Button>
-                                    <Button variant="outlined">Cancel</Button>
+                                    <Button onClick={handleCancel} variant="outlined">Cancel</Button>
                                 </Stack>
                             </>
                         ) : (

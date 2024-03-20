@@ -66,13 +66,13 @@ const getData = async (id: string) => {
     ).then((response) => response.json());
     return data;
 };
-const getImages = async (id:string) => {
+const getImages = async (id: string) => {
     const data = await fetch(
         `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images/${id}`
     ).then((response) => response.json());
     return data;
 };
-const setImages = async (data: GridRowModel,id:string) => {
+const setImages = async (data: GridRowModel, id: string) => {
     const result = await fetch(
         `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images/${id}`,
         {
@@ -131,15 +131,18 @@ function EditToolbar(props: EditToolbarProps) {
             ...oldRows,
             {
                 _id,
-                title:"",
-                description:"",
-                link:"",
+                title: "",
+                description: "",
+                link: "",
                 isNew: true,
             },
         ]);
         setRowModesModel((oldModel) => ({
             ...oldModel,
-            [_id.toString()]: { mode: GridRowModes.Edit, fieldToFocus: "title" },
+            [_id.toString()]: {
+                mode: GridRowModes.Edit,
+                fieldToFocus: "title",
+            },
         }));
     };
 
@@ -237,7 +240,7 @@ export default function Edit({ params }: any) {
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         });
-        setImageState(undefined)
+        setImageState(undefined);
         const editedRow = rows.find((row) => row._id.toString() === id);
         if (editedRow!.isNew) {
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -245,7 +248,7 @@ export default function Edit({ params }: any) {
     };
     const processRowUpdate = async (newRow: GridRowModel) => {
         if (imageState && imageState.type.startsWith("image/")) {
-            newRow.link = "/"+imageState?.name;
+            newRow.link = "/" + imageState?.name;
             await uploadImage(imageState);
         }
         const updatedRow = { ...newRow, isNew: false };
@@ -254,7 +257,7 @@ export default function Edit({ params }: any) {
                 row._id.toString() === newRow._id ? updatedRow : row
             )
         );
-        await setImages(newRow,fields._id.toString());
+        await setImages(newRow, fields._id.toString());
         setSnackbar({
             children: "Image successfully saved.",
             severity: "success",
@@ -283,7 +286,13 @@ export default function Edit({ params }: any) {
                 <Button
                     component="label"
                     variant="contained"
-                    sx={{justifyContent:"start",width:"100%", paddingInline:"6px", marginInline:"4px",overflowX:"hidden"}}
+                    sx={{
+                        justifyContent: "start",
+                        width: "100%",
+                        paddingInline: "6px",
+                        marginInline: "4px",
+                        overflowX: "hidden",
+                    }}
                     startIcon={<IconUpload />}
                 >
                     {imageState ? imageState.name : "Upload Image"}
@@ -303,7 +312,7 @@ export default function Edit({ params }: any) {
                         width: "100%",
                         height: "100%",
                         objectFit: "contain",
-                        objectPosition:"left"
+                        objectPosition: "left",
                     }}
                     width={100}
                     height={60}
@@ -376,7 +385,12 @@ export default function Edit({ params }: any) {
         };
     }, []);
     const validateForm = () => {
-        if (fields._id && fields.title != "" && fields.image != "" && fields.content != "")
+        if (
+            fields._id &&
+            fields.title != "" &&
+            fields.image != "" &&
+            fields.content != ""
+        )
             return true;
         throw new Error();
     };
@@ -402,6 +416,9 @@ export default function Edit({ params }: any) {
                 console.error("File upload failed. Error: " + error.message);
             });
     };
+    const handleCancel = () => {
+        router.back();
+    };
     const handleSubmit = async () => {
         setIsLoaded(false);
         try {
@@ -416,7 +433,7 @@ export default function Edit({ params }: any) {
                 severity: "success",
             });
             setTimeout(() => {
-                router.push("/activities");
+                router.back();
             }, 3000);
         } catch (error) {
             setIsLoaded(true);
@@ -579,14 +596,18 @@ export default function Edit({ params }: any) {
                                                 toolbar: EditToolbar,
                                             }}
                                             processRowUpdate={processRowUpdate}
-                                            onProcessRowUpdateError={handleProcessRowUpdateError}
+                                            onProcessRowUpdateError={
+                                                handleProcessRowUpdateError
+                                            }
                                             slotProps={{
                                                 toolbar: {
                                                     setRows,
                                                     setRowModesModel,
                                                 },
                                             }}
-                                            getRowId={(row) => row._id.toString()}
+                                            getRowId={(row) =>
+                                                row._id.toString()
+                                            }
                                         />
                                     </BaseCard>
                                 </Stack>
@@ -599,7 +620,12 @@ export default function Edit({ params }: any) {
                                     >
                                         Save
                                     </Button>
-                                    <Button variant="outlined">Cancel</Button>
+                                    <Button
+                                        onClick={handleCancel}
+                                        variant="outlined"
+                                    >
+                                        Cancel
+                                    </Button>
                                 </Stack>
                             </>
                         ) : (

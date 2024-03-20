@@ -48,13 +48,16 @@ const getData = async (id: string) => {
 };
 
 const setData = async (data: Blog) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/releases`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-    }).then((response) => response.json());
+    const result = await fetch(
+        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/releases`,
+        {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        }
+    ).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while saving data");
 };
@@ -145,6 +148,10 @@ export default function Edit({ params }: any) {
                 console.error("File upload failed. Error: " + error.message);
             });
     };
+    const handleCancel = () => {
+        router.back();
+    };
+
     const filePickerCallback = (callback: any, value: any, meta: any) => {
         const input = document.createElement("input");
         input.setAttribute("type", "file");
@@ -206,7 +213,7 @@ export default function Edit({ params }: any) {
                 severity: "success",
             });
             setTimeout(() => {
-                router.push("/releases");
+                router.back();
             }, 3000);
         } catch (error) {
             setIsLoaded(true);
@@ -320,7 +327,10 @@ export default function Edit({ params }: any) {
                                             type="date"
                                             name="date"
                                             id="date"
-                                            defaultValue={row?.date.slice(0, 10)}
+                                            defaultValue={row?.date.slice(
+                                                0,
+                                                10
+                                            )}
                                             onChange={handleChange}
                                             style={{
                                                 border: "1px solid #bdbdbd",
@@ -367,7 +377,12 @@ export default function Edit({ params }: any) {
                                     >
                                         Save
                                     </Button>
-                                    <Button variant="outlined">Cancel</Button>
+                                    <Button
+                                        onClick={handleCancel}
+                                        variant="outlined"
+                                    >
+                                        Cancel
+                                    </Button>
                                 </Stack>
                             </>
                         ) : (

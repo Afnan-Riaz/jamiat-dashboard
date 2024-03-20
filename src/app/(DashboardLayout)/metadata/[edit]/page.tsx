@@ -20,7 +20,7 @@ interface Page {
     meta_title: string;
     meta_description: string;
     canonical: string;
-    slug: string;
+    slug?: string;
     page_title: string;
     content?: string;
 }
@@ -69,8 +69,7 @@ export default function Edit({ params }: any) {
             row.page_title != "" &&
             row.meta_title != "" &&
             row.meta_description != "" &&
-            row.canonical != "" &&
-            row.slug != ""
+            row.canonical != ""
         )
             return true;
         throw new Error();
@@ -159,6 +158,10 @@ export default function Edit({ params }: any) {
 
         input.click();
     };
+    const handleCancel = () => {
+        router.back();
+    };
+
     const handleSubmit = async () => {
         setIsLoaded(false);
         setRow((prevRow) => ({
@@ -174,7 +177,7 @@ export default function Edit({ params }: any) {
                 severity: "success",
             });
             setTimeout(() => {
-                router.push("/metadata");
+                router.back();
             }, 3000);
         } catch (error) {
             setIsLoaded(true);
@@ -251,8 +254,9 @@ export default function Edit({ params }: any) {
                                             images_upload_handler:
                                                 imageUploader,
                                             automatic_uploads: true,
-                                            file_picker_callback: filePickerCallback,
-                                            file_picker_types:"media",
+                                            file_picker_callback:
+                                                filePickerCallback,
+                                            file_picker_types: "media",
                                         }}
                                         onInit={(evt, editor) =>
                                             (editorRef.current = editor)
@@ -270,7 +274,12 @@ export default function Edit({ params }: any) {
                                     >
                                         Save
                                     </Button>
-                                    <Button variant="outlined">Cancel</Button>
+                                    <Button
+                                        onClick={handleCancel}
+                                        variant="outlined"
+                                    >
+                                        Cancel
+                                    </Button>
                                 </Stack>
                             </>
                         ) : (

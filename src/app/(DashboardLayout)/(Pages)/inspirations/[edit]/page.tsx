@@ -161,6 +161,10 @@ export default function Edit({ params }: any) {
                 console.error("File upload failed. Error: " + error.message);
             });
     };
+    const handleCancel = () => {
+        router.back();
+    };
+
     const filePickerCallback = (callback: any, value: any, meta: any) => {
         const input = document.createElement("input");
         input.setAttribute("type", "file");
@@ -225,7 +229,7 @@ export default function Edit({ params }: any) {
                 severity: "success",
             });
             setTimeout(() => {
-                router.push("/inspirations");
+                router.back();
             }, 3000);
         } catch (error) {
             setIsLoaded(true);
@@ -425,7 +429,7 @@ export default function Edit({ params }: any) {
                                     >
                                         Save
                                     </Button>
-                                    <Button variant="outlined">Cancel</Button>
+                                    <Button onClick={handleCancel} variant="outlined">Cancel</Button>
                                 </Stack>
                             </>
                         ) : (
