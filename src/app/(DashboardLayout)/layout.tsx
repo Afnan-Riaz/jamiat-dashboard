@@ -73,7 +73,7 @@ export default function RootLayout({
                     {/* ------------------------------------------- */}
                     {/* Footer */}
                     {/* ------------------------------------------- */}
-                    <Footer />
+                    {/* <Footer /> */}
                 </Container>
             </PageWrapper>
         </MainWrapper>

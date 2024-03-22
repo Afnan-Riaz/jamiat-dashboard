@@ -1,9 +1,10 @@
 import React from "react";
 import { Card, CardContent, Typography, Stack, Box } from "@mui/material";
+import Image from "next/image";
 
 type Props = {
-    title?: string|number;
-    subtitle?: string|number;
+    title?: string | number;
+    subtitle?: string | number;
     action?: JSX.Element | any;
     footer?: JSX.Element;
     cardheading?: string | JSX.Element;
@@ -12,6 +13,7 @@ type Props = {
     children?: JSX.Element;
     middlecontent?: string | JSX.Element;
     color?: string;
+    icon?: string;
 };
 
 const DashboardCard = ({
@@ -24,9 +26,14 @@ const DashboardCard = ({
     headsubtitle,
     middlecontent,
     color,
+    icon,
 }: Props) => {
     return (
-        <Card sx={{ padding: 0, backgroundColor:color }} elevation={9} variant={undefined}>
+        <Card
+            sx={{ padding: 0, backgroundColor: color }}
+            elevation={9}
+            variant={undefined}
+        >
             {cardheading ? (
                 <CardContent>
                     <Typography variant="h3">{headtitle}</Typography>
@@ -43,6 +50,30 @@ const DashboardCard = ({
                             alignItems={"center"}
                             // mb={3}
                         >
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    width: 60,
+                                    height: 60,
+                                    borderRadius: "50%",
+                                    background: "rgba(200, 200, 200, 0.18)",
+                                    padding: 4,
+                                    mb: 2,
+                                }}
+                            >
+                                {icon ? (
+                                    <Image
+                                        src={`/icons/${icon}`}
+                                        alt="icon"
+                                        width={30}
+                                        height={30}
+                                    />
+                                ) : (
+                                    ""
+                                )}
+                            </Box>
                             <Box>
                                 {title ? (
                                     <Typography variant="h1">
@@ -51,18 +82,14 @@ const DashboardCard = ({
                                 ) : (
                                     ""
                                 )}
-
                             </Box>
-							{subtitle ? (
-								<Typography
-									variant="h4"
-									color="textSecondary"
-								>
-									{subtitle}
-								</Typography>
-							) : (
-								""
-							)}
+                            {subtitle ? (
+                                <Typography variant="h4" color="textSecondary">
+                                    {subtitle}
+                                </Typography>
+                            ) : (
+                                ""
+                            )}
                         </Stack>
                     ) : null}
 

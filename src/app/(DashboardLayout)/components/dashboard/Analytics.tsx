@@ -6,6 +6,7 @@ import { Grid } from "@mui/material";
 import Loading from "@/app/loading";
 
 const colors = ["#d5f5e4", "#cff9fa", "#faead4", "#fcd7de"];
+const icons=["blog.png","activity.png","event.png","project.png"];
 const getData = async () => {
     const data = await fetch(
         `${process.env.NEXT_PUBLIC_DOMAIN}/api/count`
@@ -28,8 +29,9 @@ const Analytics = () => {
                     counts.map((count: any, index: number) => (
                         <Grid item xs={6} lg={3} key={index}>
                             <DashboardCard
-                                subtitle={count.type}
+                                icon={icons[index]}
                                 title={count.count}
+                                subtitle={count.type}
                                 color={colors[index % colors.length]}
                             ></DashboardCard>
                         </Grid>
