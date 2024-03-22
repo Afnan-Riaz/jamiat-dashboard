@@ -127,7 +127,15 @@ export default function Analytics() {
 
     const columns: GridColDef[] = [
         { field: "title", headerName: "Title", width: 200, editable: true },
-        { field: "count", headerName: "Count", type:"number", width: 100, headerAlign:"left", align:"left", editable: true },
+        {
+            field: "count",
+            headerName: "Count",
+            type: "number",
+            width: 100,
+            headerAlign: "left",
+            align: "left",
+            editable: true,
+        },
         {
             field: "actions",
             type: "actions",
@@ -190,6 +198,11 @@ export default function Analytics() {
                 {dataFetched ? (
                     <>
                         <DataGrid
+                            sx={{
+                                "& .MuiDataGrid-columnHeaderTitle": {
+                                    fontWeight: "600",
+                                },
+                            }}
                             rows={rows}
                             columns={columns}
                             editMode="row"

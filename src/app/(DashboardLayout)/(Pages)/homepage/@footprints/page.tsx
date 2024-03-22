@@ -105,8 +105,8 @@ export default function Footprints() {
                 row._id.toString() === newRow._id ? updatedRow : row
             )
         );
-        newRow.count.edu=newRow.edu;
-        newRow.count.res=newRow.res;
+        newRow.count.edu = newRow.edu;
+        newRow.count.res = newRow.res;
         delete newRow.edu;
         delete newRow.res;
         await setData(newRow);
@@ -133,23 +133,26 @@ export default function Footprints() {
         {
             field: "edu",
             headerName: "Educational Units",
-            type:"number",
-            align:"left",
-            headerAlign:"left",
+            type: "number",
+            align: "left",
+            headerAlign: "left",
             width: 200,
             editable: true,
-            valueGetter: (params) => {return params.row.count.edu;}
+            valueGetter: (params) => {
+                return params.row.count.edu;
+            },
         },
         {
             field: "res",
             headerName: "Residential Units",
-            type:"number",
-            align:"left",
-            headerAlign:"left",
+            type: "number",
+            align: "left",
+            headerAlign: "left",
             width: 200,
             editable: true,
-            valueGetter: (params) => {return params.row.count.res;}
-
+            valueGetter: (params) => {
+                return params.row.count.res;
+            },
         },
         {
             field: "actions",
@@ -213,6 +216,11 @@ export default function Footprints() {
                 {dataFetched ? (
                     <>
                         <DataGrid
+                            sx={{
+                                "& .MuiDataGrid-columnHeaderTitle": {
+                                    fontWeight: "600",
+                                },
+                            }}
                             rows={rows}
                             columns={columns}
                             editMode="row"

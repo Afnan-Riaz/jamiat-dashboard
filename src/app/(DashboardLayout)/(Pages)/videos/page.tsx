@@ -23,11 +23,7 @@ import {
     GridCellEditStopReasons,
 } from "@mui/x-data-grid";
 import Loading from "@/app/loading";
-import {
-    Alert,
-    AlertProps,
-    Snackbar,
-} from "@mui/material";
+import { Alert, AlertProps, Snackbar } from "@mui/material";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -108,7 +104,6 @@ function EditToolbar(props: EditToolbarProps) {
 function isKeyboardEvent(event: any): event is React.KeyboardEvent {
     return !!event.key;
 }
-
 
 export default function Videos() {
     const [rows, setRows] = React.useState<GridRowsProp>([]);
@@ -274,6 +269,12 @@ export default function Videos() {
             {dataFetched ? (
                 <>
                     <DataGrid
+                        sx={{
+                            "& .MuiDataGrid-columnHeaderTitle": {
+                                fontWeight: "600",
+                            },
+                            height: "80vh",
+                        }}
                         rows={rows}
                         columns={columns}
                         editMode="row"

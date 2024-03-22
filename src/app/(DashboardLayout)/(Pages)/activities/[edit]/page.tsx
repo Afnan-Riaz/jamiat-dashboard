@@ -580,6 +580,11 @@ export default function Edit({ params }: any) {
                                     </Stack>
                                     <BaseCard title="Activity Album">
                                         <DataGrid
+                                            sx={{
+                                                "& .MuiDataGrid-columnHeaderTitle": {
+                                                    fontWeight: "600",
+                                                },
+                                            }}
                                             rows={rows}
                                             columns={columns}
                                             editMode="row"

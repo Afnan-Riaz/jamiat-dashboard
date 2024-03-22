@@ -401,6 +401,12 @@ export default function Events() {
             {dataFetched ? (
                 <>
                     <DataGrid
+                        sx={{
+                            "& .MuiDataGrid-columnHeaderTitle": {
+                                fontWeight: "600",
+                            },
+                            height: "80vh",
+                        }}
                         rows={rows}
                         columns={columns}
                         editMode="row"

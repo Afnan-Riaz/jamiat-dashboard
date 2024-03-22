@@ -55,8 +55,8 @@ const MenuItems = [
             },
             {
                 id: uniqueId(),
-                title: "President's Message",
-                href: "/message",
+                title: "Our President",
+                href: "/president",
             },
             {
                 id: uniqueId(),

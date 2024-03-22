@@ -367,6 +367,11 @@ export default function Banner() {
                 {dataFetched ? (
                     <>
                         <DataGrid
+                            sx={{
+                                "& .MuiDataGrid-columnHeaderTitle": {
+                                    fontWeight: "600",
+                                },
+                            }}
                             rows={rows}
                             columns={columns}
                             editMode="row"

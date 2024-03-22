@@ -123,15 +123,18 @@ function EditToolbar(props: EditToolbarProps) {
             ...oldRows,
             {
                 _id,
-                title:"",
-                description:"",
-                link:"",
+                title: "",
+                description: "",
+                link: "",
                 isNew: true,
             },
         ]);
         setRowModesModel((oldModel) => ({
             ...oldModel,
-            [_id.toString()]: { mode: GridRowModes.Edit, fieldToFocus: "title" },
+            [_id.toString()]: {
+                mode: GridRowModes.Edit,
+                fieldToFocus: "title",
+            },
         }));
     };
 
@@ -301,7 +304,7 @@ export default function Images() {
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         });
-        setFileState(undefined)
+        setFileState(undefined);
         const editedRow = rows.find((row) => row._id.toString() === id);
         if (editedRow!.isNew) {
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -310,7 +313,7 @@ export default function Images() {
 
     const processRowUpdate = async (newRow: GridRowModel) => {
         if (fileState && fileState.type.startsWith("image/")) {
-            newRow.link = "/"+fileState?.name;
+            newRow.link = "/" + fileState?.name;
             await uploadImage(fileState);
         }
         const updatedRow = { ...newRow, isNew: false };
@@ -339,10 +342,10 @@ export default function Images() {
     };
     const getRowSpacing = React.useCallback((params: GridRowSpacingParams) => {
         return {
-          top: params.isFirstVisible ? 0 : 5,
-          bottom: params.isLastVisible ? 0 : 5,
+            top: params.isFirstVisible ? 0 : 5,
+            bottom: params.isLastVisible ? 0 : 5,
         };
-      }, []);
+    }, []);
     const columns: GridColDef[] = [
         {
             field: "link",
@@ -354,7 +357,13 @@ export default function Images() {
                 <Button
                     component="label"
                     variant="contained"
-                    sx={{justifyContent:"start",width:"100%", paddingInline:"6px", marginInline:"4px",overflowX:"hidden"}}
+                    sx={{
+                        justifyContent: "start",
+                        width: "100%",
+                        paddingInline: "6px",
+                        marginInline: "4px",
+                        overflowX: "hidden",
+                    }}
                     startIcon={<IconUpload />}
                 >
                     {fileState ? fileState.name : "Upload Image"}
@@ -374,7 +383,7 @@ export default function Images() {
                         width: "100%",
                         height: "100%",
                         objectFit: "contain",
-                        objectPosition:"left"
+                        objectPosition: "left",
                     }}
                     width={100}
                     height={60}
@@ -458,6 +467,12 @@ export default function Images() {
             {dataFetched ? (
                 <>
                     <DataGrid
+                        sx={{
+                            "& .MuiDataGrid-columnHeaderTitle": {
+                                fontWeight: "600",
+                            },
+                            height: "80vh",
+                        }}
                         rows={rows}
                         columns={columns}
                         editMode="row"

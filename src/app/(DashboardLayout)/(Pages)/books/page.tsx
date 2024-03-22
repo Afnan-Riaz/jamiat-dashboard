@@ -24,12 +24,7 @@ import {
     GridRowSpacingParams,
 } from "@mui/x-data-grid";
 import Loading from "@/app/loading";
-import {
-    Alert,
-    AlertProps,
-    Snackbar,
-    styled,
-} from "@mui/material";
+import { Alert, AlertProps, Snackbar, styled } from "@mui/material";
 import Image from "next/image";
 import { IconUpload } from "@tabler/icons-react";
 
@@ -123,7 +118,10 @@ function EditToolbar(props: EditToolbarProps) {
         ]);
         setRowModesModel((oldModel) => ({
             ...oldModel,
-            [_id.toString()]: { mode: GridRowModes.Edit, fieldToFocus: "title" },
+            [_id.toString()]: {
+                mode: GridRowModes.Edit,
+                fieldToFocus: "title",
+            },
         }));
     };
 
@@ -143,7 +141,6 @@ function EditToolbar(props: EditToolbarProps) {
 function isKeyboardEvent(event: any): event is React.KeyboardEvent {
     return !!event.key;
 }
-
 
 export default function Book() {
     const [rows, setRows] = React.useState<GridRowsProp>([]);
@@ -184,10 +181,10 @@ export default function Book() {
     };
     const getRowSpacing = React.useCallback((params: GridRowSpacingParams) => {
         return {
-          top: params.isFirstVisible ? 0 : 5,
-          bottom: params.isLastVisible ? 0 : 5,
+            top: params.isFirstVisible ? 0 : 5,
+            bottom: params.isLastVisible ? 0 : 5,
         };
-      }, []);
+    }, []);
     const handleEditClick = (id: GridRowId) => () => {
         setRowModesModel({
             ...rowModesModel,
@@ -223,7 +220,7 @@ export default function Book() {
             ...rowModesModel,
             [id]: { mode: GridRowModes.View, ignoreModifications: true },
         });
-        setFileState(undefined)
+        setFileState(undefined);
         const editedRow = rows.find((row) => row._id.toString() === id);
         if (editedRow!.isNew) {
             setRows(rows.filter((row) => row._id.toString() !== id));
@@ -232,7 +229,7 @@ export default function Book() {
 
     const processRowUpdate = async (newRow: GridRowModel) => {
         if (fileState && fileState.type.startsWith("image/")) {
-            newRow.title = "/"+fileState?.name;
+            newRow.title = "/" + fileState?.name;
             await uploadImage(fileState);
         }
         const updatedRow = { ...newRow, isNew: false };
@@ -271,7 +268,13 @@ export default function Book() {
                 <Button
                     component="label"
                     variant="contained"
-                    sx={{justifyContent:"start",width:"100%", paddingInline:"6px", marginInline:"4px",overflowX:"hidden"}}
+                    sx={{
+                        justifyContent: "start",
+                        width: "100%",
+                        paddingInline: "6px",
+                        marginInline: "4px",
+                        overflowX: "hidden",
+                    }}
                     startIcon={<IconUpload />}
                 >
                     {fileState ? fileState.name : "Upload Image"}
@@ -291,7 +294,7 @@ export default function Book() {
                         width: "100%",
                         height: "100%",
                         objectFit: "contain",
-                        objectPosition:"left"
+                        objectPosition: "left",
                     }}
                     width={100}
                     height={60}
@@ -367,6 +370,12 @@ export default function Book() {
             {dataFetched ? (
                 <>
                     <DataGrid
+                        sx={{
+                            "& .MuiDataGrid-columnHeaderTitle": {
+                                fontWeight: "600",
+                            },
+                            height: "80vh",
+                        }}
                         rows={rows}
                         columns={columns}
                         editMode="row"
