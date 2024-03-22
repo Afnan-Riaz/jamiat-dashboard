@@ -9,13 +9,15 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
-import { Alert } from "@mui/material";
+import { Alert, CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 export default function Login() {
     const router = useRouter();
+    const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState();
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoading(true);
         const data = new FormData(event.currentTarget);
         const body = {
             username: data.get("username"),
@@ -38,6 +40,7 @@ export default function Login() {
             router.push("/");
         } else {
             setError(result.message);
+            setLoading(false);
         }
     };
     return (
@@ -113,9 +116,16 @@ export default function Login() {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mt: 3, mb: 2, fontSize: "1rem" }}
                         >
-                            Sign In
+                            {loading ? (
+                                <CircularProgress
+                                    color="inherit"
+                                    sx={{ maxHeight: "30px", maxWidth: "30px" }}
+                                />
+                            ) : (
+                                "Sign In"
+                            )}
                         </Button>
                         {error ? <Alert severity="error">{error}</Alert> : ""}
                     </Box>

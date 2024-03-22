@@ -8,6 +8,7 @@ import {
     Stack,
     IconButton,
     Button,
+    CircularProgress,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import { IconMenu2 } from "@tabler/icons-react";
@@ -17,6 +18,7 @@ interface ItemType {
 }
 
 const Header = ({ toggleMobileSidebar }: ItemType) => {
+    const [loading, setLoading] = React.useState(false);
     const router = useRouter();
     const AppBarStyled = styled(AppBar)(({ theme }) => ({
         boxShadow: "none",
@@ -32,12 +34,13 @@ const Header = ({ toggleMobileSidebar }: ItemType) => {
         color: theme.palette.text.secondary,
     }));
     const handleLogout = async () => {
-        await fetch(
-            `${process.env.NEXT_PUBLIC_DOMAIN}/api/users/logout`
-        ).then((response) => {
-            if (response.status === 200) router.push("/login");
-        });
-
+        setLoading(true);
+        await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/users/logout`).then(
+            (response) => {
+                if (response.status === 200) router.push("/login");
+            }
+        );
+        setLoading(false);
     };
     return (
         <AppBarStyled position="sticky" color="default">
@@ -62,8 +65,16 @@ const Header = ({ toggleMobileSidebar }: ItemType) => {
                         onClick={handleLogout}
                         variant="contained"
                         color="error"
+                        sx={{ width: "90px" }}
                     >
-                        Logout
+                        {loading ? (
+                            <CircularProgress
+                                color="inherit"
+                                sx={{ maxHeight: "30px", maxWidth: "30px" }}
+                            />
+                        ) : (
+                            "Log Out"
+                        )}
                     </Button>
                 </Stack>
             </ToolbarStyled>
