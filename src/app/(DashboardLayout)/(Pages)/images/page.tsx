@@ -39,6 +39,7 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import { IconUpload } from "@tabler/icons-react";
+import BaseCard from "../../components/shared/BaseCard";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -464,6 +465,7 @@ export default function Images() {
                 },
             }}
         >
+            <BaseCard title="Manage Images">
             {dataFetched ? (
                 <>
                     <DataGrid
@@ -471,7 +473,7 @@ export default function Images() {
                             "& .MuiDataGrid-columnHeaderTitle": {
                                 fontWeight: "600",
                             },
-                            height: "80vh",
+                            height: "70vh",
                         }}
                         rows={rows}
                         columns={columns}
@@ -525,7 +527,7 @@ export default function Images() {
                 </>
             ) : (
                 <Loading />
-            )}
+            )}</BaseCard>
         </Box>
     );
 }

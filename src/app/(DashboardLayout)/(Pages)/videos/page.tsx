@@ -24,6 +24,7 @@ import {
 } from "@mui/x-data-grid";
 import Loading from "@/app/loading";
 import { Alert, AlertProps, Snackbar } from "@mui/material";
+import BaseCard from "../../components/shared/BaseCard";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -266,6 +267,7 @@ export default function Videos() {
                 },
             }}
         >
+            <BaseCard title="Manage Videos">
             {dataFetched ? (
                 <>
                     <DataGrid
@@ -273,7 +275,7 @@ export default function Videos() {
                             "& .MuiDataGrid-columnHeaderTitle": {
                                 fontWeight: "600",
                             },
-                            height: "80vh",
+                            height: "70vh",
                         }}
                         rows={rows}
                         columns={columns}
@@ -325,7 +327,7 @@ export default function Videos() {
                 </>
             ) : (
                 <Loading />
-            )}
+            )}</BaseCard>
         </Box>
     );
 }

@@ -19,6 +19,7 @@ import Loading from "@/app/loading";
 import { Alert, AlertProps, CircularProgress, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import BaseCard from "../../components/shared/BaseCard";
 
 const getData = async () => {
     const data = await fetch(
@@ -203,6 +204,7 @@ export default function Projects() {
                 },
             }}
         >
+            <BaseCard title="Manage Projects">
             {dataFetched ? (
                 <>
                     <DataGrid
@@ -210,7 +212,7 @@ export default function Projects() {
                             "& .MuiDataGrid-columnHeaderTitle": {
                                 fontWeight: "600",
                             },
-                            height: "80vh",
+                            height: "70vh",
                         }}
                         rows={rows}
                         columns={columns}
@@ -248,7 +250,7 @@ export default function Projects() {
                 </>
             ) : (
                 <Loading />
-            )}
+            )}</BaseCard>
         </Box>
     );
 }

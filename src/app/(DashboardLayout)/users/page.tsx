@@ -22,7 +22,8 @@ import {
     GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import Loading from "../loading";
-import { Alert, AlertProps, Snackbar } from "@mui/material";
+import { Alert, AlertProps, Snackbar, Typography } from "@mui/material";
+import BaseCard from "../components/shared/BaseCard";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -284,55 +285,59 @@ export default function Users() {
                 },
             }}
         >
-            {alert ? (
-                <Alert severity="error">{alert}</Alert>
-            ) : dataFetched ? (
-                <>
-                    <DataGrid
-                        sx={{
-                            "& .MuiDataGrid-columnHeaderTitle": {
-                                fontWeight: "600",
-                            },
-                            height: "80vh",
-                        }}
-                        rows={rows}
-                        columns={columns}
-                        editMode="row"
-                        rowModesModel={rowModesModel}
-                        onRowModesModelChange={handleRowModesModelChange}
-                        onRowEditStop={handleRowEditStop}
-                        processRowUpdate={processRowUpdate}
-                        onProcessRowUpdateError={handleProcessRowUpdateError}
-                        columnBuffer={2}
-                        columnThreshold={2}
-                        slots={{
-                            toolbar: EditToolbar,
-                        }}
-                        slotProps={{
-                            toolbar: { setRows, setRowModesModel },
-                        }}
-                        getRowId={(row) => row._id.toString()}
-                    />
-                    {!!snackbar && (
-                        <Snackbar
-                            open
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "center",
+            <BaseCard title="Manage Users">
+                {alert ? (
+                    <Alert severity="error">{alert}</Alert>
+                ) : dataFetched ? (
+                    <>
+                        <DataGrid
+                            sx={{
+                                "& .MuiDataGrid-columnHeaderTitle": {
+                                    fontWeight: "600",
+                                },
+                                height: "70vh",
                             }}
-                            onClose={handleCloseSnackbar}
-                            autoHideDuration={6000}
-                        >
-                            <Alert
-                                {...snackbar}
+                            rows={rows}
+                            columns={columns}
+                            editMode="row"
+                            rowModesModel={rowModesModel}
+                            onRowModesModelChange={handleRowModesModelChange}
+                            onRowEditStop={handleRowEditStop}
+                            processRowUpdate={processRowUpdate}
+                            onProcessRowUpdateError={
+                                handleProcessRowUpdateError
+                            }
+                            columnBuffer={2}
+                            columnThreshold={2}
+                            slots={{
+                                toolbar: EditToolbar,
+                            }}
+                            slotProps={{
+                                toolbar: { setRows, setRowModesModel },
+                            }}
+                            getRowId={(row) => row._id.toString()}
+                        />
+                        {!!snackbar && (
+                            <Snackbar
+                                open
+                                anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "center",
+                                }}
                                 onClose={handleCloseSnackbar}
-                            />
-                        </Snackbar>
-                    )}
-                </>
-            ) : (
-                <Loading />
-            )}
+                                autoHideDuration={6000}
+                            >
+                                <Alert
+                                    {...snackbar}
+                                    onClose={handleCloseSnackbar}
+                                />
+                            </Snackbar>
+                        )}
+                    </>
+                ) : (
+                    <Loading />
+                )}
+            </BaseCard>
         </Box>
     );
 }

@@ -17,6 +17,7 @@ import {
 import Loading from "../loading";
 import { Alert, AlertProps, CircularProgress, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
+import BaseCard from "../components/shared/BaseCard";
 
 const getData = async () => {
     const data = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api`).then(
@@ -194,6 +195,7 @@ export default function Metadata() {
                 },
             }}
         >
+            <BaseCard title="Edit Site Metadata">
             {dataFetched ? (
                 <>
                     <DataGrid
@@ -201,7 +203,7 @@ export default function Metadata() {
                             "& .MuiDataGrid-columnHeaderTitle": {
                                 fontWeight: "600",
                             },
-                            height: "80vh",
+                            height: "70vh",
                         }}
                         rows={rows}
                         columns={columns}
@@ -237,7 +239,7 @@ export default function Metadata() {
                 </>
             ) : (
                 <Loading />
-            )}
+            )}</BaseCard>
         </Box>
     );
 }

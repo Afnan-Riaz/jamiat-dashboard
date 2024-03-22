@@ -28,6 +28,7 @@ import Loading from "@/app/loading";
 import { Alert, AlertProps, Snackbar, styled } from "@mui/material";
 import Image from "next/image";
 import { IconUpload } from "@tabler/icons-react";
+import BaseCard from "../../components/shared/BaseCard";
 
 const ObjectId = mongoose.Types.ObjectId;
 
@@ -403,6 +404,7 @@ export default function Magazine() {
                 },
             }}
         >
+            <BaseCard title="Manage Magazines">
             {dataFetched ? (
                 <>
                     <DataGrid
@@ -410,7 +412,7 @@ export default function Magazine() {
                             "& .MuiDataGrid-columnHeaderTitle": {
                                 fontWeight: "600",
                             },
-                            height: "80vh",
+                            height: "70vh",
                         }}
                         rows={rows}
                         columns={columns}
@@ -464,7 +466,7 @@ export default function Magazine() {
                 </>
             ) : (
                 <Loading />
-            )}
+            )}</BaseCard>
         </Box>
     );
 }

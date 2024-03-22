@@ -19,6 +19,7 @@ import Loading from "@/app/loading";
 import { Alert, AlertProps, CircularProgress, Snackbar } from "@mui/material";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import BaseCard from "../../components/shared/BaseCard";
 
 const getData = async () => {
     const data = await fetch(
@@ -209,6 +210,7 @@ export default function Blogs() {
                 },
             }}
         >
+            <BaseCard title="Manage Blogs">
             {dataFetched ? (
                 <>
                     <DataGrid
@@ -216,7 +218,7 @@ export default function Blogs() {
                             "& .MuiDataGrid-columnHeaderTitle": {
                                 fontWeight: "600",
                             },
-                            height: "80vh",
+                            height: "70vh",
                         }}
                         rows={rows}
                         columns={columns}
@@ -254,7 +256,7 @@ export default function Blogs() {
                 </>
             ) : (
                 <Loading />
-            )}
+            )}</BaseCard>
         </Box>
     );
 }

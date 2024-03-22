@@ -153,10 +153,10 @@ export default function President() {
         <>
             <Grid container spacing={3}>
                 <Grid item xs={12} lg={12}>
-                    <BaseCard title="Edit President Section">
+                    <BaseCard title="Edit President's Biography">
                         {isLoaded ? (
                             <>
-                                <Stack spacing={3}>
+                                <Stack spacing={5}>
                                     <TextField
                                         label="Name"
                                         variant="outlined"
@@ -206,7 +206,7 @@ export default function President() {
                                     <TextField
                                         label="Biography"
                                         multiline
-                                        rows={10}
+                                        rows={12}
                                         id="content"
                                         value={row?.content}
                                         onChange={handleChange}
