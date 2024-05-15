@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function GET(): Promise<NextResponse> {
     await connectDB();
     try {
-        const data: Document[] = await Profiles.find({ type: { $in: ['team', 'president'] }}).sort({ type: 1 });
+        const data: Document[] = await Profiles.find({ type: { $in: ['team', 'president', 'secretary'] }}).sort({ type: 1 });
         return NextResponse.json(data);
     } catch (error) {
         console.error("Error fetching data:", error);

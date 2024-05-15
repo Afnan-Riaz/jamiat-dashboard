@@ -342,7 +342,7 @@ export default function Team() {
         setRowModesModel(newRowModesModel);
     };
     const getRowClassName = (params: GridRowClassNameParams) => {
-        return params.row.type === "president" ? "main" : "";
+        return params.row.type === "president" || params.row.type === "secretary" ? "main" : "";
     };
     const getRowSpacing = React.useCallback((params: GridRowSpacingParams) => {
         return {
@@ -451,7 +451,7 @@ export default function Team() {
                         color="inherit"
                     />,
                 ];
-                if (row.type !== "president") {
+                if (row.type !== "president" && row.type !== "secretary") {
                     actions.push(
                         <GridActionsCellItem
                             key={1}
