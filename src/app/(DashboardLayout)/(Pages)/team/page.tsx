@@ -34,8 +34,10 @@ import {
     AlertProps,
     InputBase,
     InputBaseProps,
+    MenuItem,
     Paper,
     Popper,
+    Select,
     Snackbar,
     styled,
 } from "@mui/material";
@@ -129,6 +131,7 @@ function EditToolbar(props: EditToolbarProps) {
                 image: "",
                 name: "",
                 designation: "",
+                group: "",
                 content: "",
                 isNew: true,
             },
@@ -341,9 +344,6 @@ export default function Team() {
     const handleRowModesModelChange = (newRowModesModel: GridRowModesModel) => {
         setRowModesModel(newRowModesModel);
     };
-    const getRowClassName = (params: GridRowClassNameParams) => {
-        return params.row.type === "president" || params.row.type === "secretary" ? "main" : "";
-    };
     const getRowSpacing = React.useCallback((params: GridRowSpacingParams) => {
         return {
             top: params.isFirstVisible ? 0 : 5,
@@ -403,6 +403,14 @@ export default function Team() {
             editable: true,
         },
         {
+            field: "group",
+            headerName: "Group",
+            type: "singleSelect",
+            width: 140,
+            editable: true,
+            valueOptions: [ "President", "Secretary General", "Central Team", "Provincial Presidents", "Executive Council" ]
+        },
+        {
             field: "content",
             headerName: "Message",
             type: "string",
@@ -451,17 +459,6 @@ export default function Team() {
                         color="inherit"
                     />,
                 ];
-                if (row.type !== "president" && row.type !== "secretary") {
-                    actions.push(
-                        <GridActionsCellItem
-                            key={1}
-                            icon={<DeleteIcon />}
-                            label="Delete"
-                            onClick={handleDeleteClick(id)}
-                            color="inherit"
-                        />
-                    );
-                }
                 return actions;
             },
         },
@@ -497,7 +494,6 @@ export default function Team() {
                         editMode="row"
                         rowHeight={100}
                         getRowSpacing={getRowSpacing}
-                        getRowClassName={getRowClassName}
                         rowModesModel={rowModesModel}
                         onRowModesModelChange={handleRowModesModelChange}
                         onRowEditStop={handleRowEditStop}

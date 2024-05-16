@@ -10,6 +10,7 @@ interface Profile extends Document {
     name: string;
     image: mongoose.Schema.Types.Mixed;
     designation: string;
+    group?: string;
     content: string;
     dob?: Date;
     dod?: Date;
@@ -26,6 +27,7 @@ const profilesModel = new mongoose.Schema<Profile>(
         name: { type: String, required: true },
         image: { type: String, required: true },
         designation: { type: String, required: true },
+        group: { type: String, required: false },
         content: { type: String, required: true },
         dob: { type: Date, required: false },
         dod: { type: Date, required: false },
