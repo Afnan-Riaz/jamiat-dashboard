@@ -299,6 +299,13 @@ export default function Banner() {
             ),
         },
         {
+            field: "title",
+            headerName: "Title",
+            type: "string",
+            width: 350,
+            editable: true,
+        },
+        {
             field: "actions",
             type: "actions",
             headerName: "Actions",
