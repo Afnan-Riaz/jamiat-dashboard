@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-const { user, password } = process.env;
-const connectionStr: string = `mongodb+srv://${user}:${password}@cluster0.ovilnum.mongodb.net/Jamiat?retryWrites=true&w=majority`;
+const { USER_NAME, PASSWORD } = process.env;
+const connectionStr: string = `mongodb+srv://${USER_NAME}:${PASSWORD}@cluster0.ovilnum.mongodb.net/Jamiat?retryWrites=true&w=majority`;
 
 const connection = {isConnected:0}
 
