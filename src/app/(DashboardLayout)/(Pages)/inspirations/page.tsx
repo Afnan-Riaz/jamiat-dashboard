@@ -22,23 +22,20 @@ import Image from "next/image";
 import BaseCard from "../../components/shared/BaseCard";
 
 const getData = async () => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/inspirations`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/profiles/inspirations`).then((response) =>
+        response.json()
+    );
     return data;
 };
 
 const deleteData = async (data: object) => {
-    const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/inspirations`,
-        {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    ).then((response) => response.json());
+    const result = await fetch(`/api/profiles/inspirations`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while deleting data");
 };
@@ -211,52 +208,53 @@ export default function Inspirations() {
             }}
         >
             <BaseCard title="Manage Inspirations">
-            {dataFetched ? (
-                <>
-                    <DataGrid
-                        sx={{
-                            "& .MuiDataGrid-columnHeaderTitle": {
-                                fontWeight: "600",
-                            },
-                            height: "70vh",
-                        }}
-                        rows={rows}
-                        columns={columns}
-                        editMode="row"
-                        getRowSpacing={getRowSpacing}
-                        rowHeight={80}
-                        rowModesModel={rowModesModel}
-                        onRowModesModelChange={handleRowModesModelChange}
-                        columnBuffer={2}
-                        columnThreshold={2}
-                        slots={{
-                            toolbar: EditToolbar,
-                        }}
-                        slotProps={{
-                            toolbar: { setRows, setRowModesModel },
-                        }}
-                        getRowId={(row) => row._id.toString()}
-                    />
-                    {!!snackbar && (
-                        <Snackbar
-                            open
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "center",
+                {dataFetched ? (
+                    <>
+                        <DataGrid
+                            sx={{
+                                "& .MuiDataGrid-columnHeaderTitle": {
+                                    fontWeight: "600",
+                                },
+                                height: "70vh",
                             }}
-                            onClose={handleCloseSnackbar}
-                            autoHideDuration={1000}
-                        >
-                            <Alert
-                                {...snackbar}
+                            rows={rows}
+                            columns={columns}
+                            editMode="row"
+                            getRowSpacing={getRowSpacing}
+                            rowHeight={80}
+                            rowModesModel={rowModesModel}
+                            onRowModesModelChange={handleRowModesModelChange}
+                            columnBuffer={2}
+                            columnThreshold={2}
+                            slots={{
+                                toolbar: EditToolbar,
+                            }}
+                            slotProps={{
+                                toolbar: { setRows, setRowModesModel },
+                            }}
+                            getRowId={(row) => row._id.toString()}
+                        />
+                        {!!snackbar && (
+                            <Snackbar
+                                open
+                                anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "center",
+                                }}
                                 onClose={handleCloseSnackbar}
-                            />
-                        </Snackbar>
-                    )}
-                </>
-            ) : (
-                <Loading />
-            )}</BaseCard>
+                                autoHideDuration={1000}
+                            >
+                                <Alert
+                                    {...snackbar}
+                                    onClose={handleCloseSnackbar}
+                                />
+                            </Snackbar>
+                        )}
+                    </>
+                ) : (
+                    <Loading />
+                )}
+            </BaseCard>
         </Box>
     );
 }

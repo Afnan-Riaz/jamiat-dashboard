@@ -23,16 +23,13 @@ export default function Login() {
             username: data.get("username"),
             password: data.get("password"),
         };
-        const result = await fetch(
-            `${process.env.NEXT_PUBLIC_DOMAIN}/api/users`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(body),
-            }
-        ).then(async (response) => {
+        const result = await fetch(`/api/users`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        }).then(async (response) => {
             const data = await response.json();
             return { status: response.status, message: data.message };
         });

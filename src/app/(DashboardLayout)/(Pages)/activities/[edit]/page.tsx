@@ -61,56 +61,47 @@ const HiddenInput = styled("input")({
     width: 1,
 });
 const getData = async (id: string) => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/${id}`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/blogs/${id}`).then((response) =>
+        response.json()
+    );
     return data;
 };
 const getImages = async (id: string) => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images/${id}`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/media/images/${id}`).then((response) =>
+        response.json()
+    );
     return data;
 };
 const setImages = async (data: GridRowModel, id: string) => {
-    const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images/${id}`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    ).then((response) => response.json());
+    const result = await fetch(`/api/media/images/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while saving data");
 };
 const deleteImage = async (data: object) => {
-    const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images`,
-        {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    ).then((response) => response.json());
+    const result = await fetch(`/api/media/images`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while deleting data");
 };
 const setData = async (data: Activity) => {
-    const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/activities`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    ).then((response) => response.json());
+    const result = await fetch(`/api/blogs/activities`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while saving data");
 };
@@ -402,7 +393,7 @@ export default function Edit({ params }: any) {
         const formData = new FormData();
         formData.append("file", file);
 
-        fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+        fetch(`/api/upload`, {
             method: "POST",
             body: formData,
         })
@@ -581,9 +572,10 @@ export default function Edit({ params }: any) {
                                     <BaseCard title="Activity Album">
                                         <DataGrid
                                             sx={{
-                                                "& .MuiDataGrid-columnHeaderTitle": {
-                                                    fontWeight: "600",
-                                                },
+                                                "& .MuiDataGrid-columnHeaderTitle":
+                                                    {
+                                                        fontWeight: "600",
+                                                    },
                                             }}
                                             rows={rows}
                                             columns={columns}

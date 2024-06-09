@@ -6,11 +6,9 @@ import { Grid } from "@mui/material";
 import Loading from "@/app/loading";
 
 const colors = ["#d5f5e4", "#cff9fa", "#faead4", "#fcd7de"];
-const icons=["blog.png","activity.png","event.png","project.png"];
+const icons = ["blog.png", "activity.png", "event.png", "project.png"];
 const getData = async () => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/count`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/count`).then((response) => response.json());
     return data;
 };
 const Analytics = () => {

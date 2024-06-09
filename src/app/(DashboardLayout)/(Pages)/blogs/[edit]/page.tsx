@@ -41,14 +41,14 @@ const HiddenInput = styled("input")({
     width: 1,
 });
 const getData = async (id: string) => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs/${id}`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/blogs/${id}`).then((response) =>
+        response.json()
+    );
     return data;
 };
 
 const setData = async (data: Blog) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs`, {
+    const result = await fetch(`/api/blogs`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -98,7 +98,7 @@ export default function Edit({ params }: any) {
             const formData = new FormData();
             formData.append("file", blobInfo.blob(), blobInfo.filename());
 
-            fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+            fetch(`/api/upload`, {
                 method: "POST",
                 body: formData,
             })
@@ -131,7 +131,7 @@ export default function Edit({ params }: any) {
         const formData = new FormData();
         formData.append("file", file);
 
-        fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+        fetch(`/api/upload`, {
             method: "POST",
             body: formData,
         })
@@ -156,7 +156,7 @@ export default function Edit({ params }: any) {
                 const formData = new FormData();
                 formData.append("file", file);
 
-                fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+                fetch(`/api/upload`, {
                     method: "POST",
                     body: formData,
                 })
@@ -324,7 +324,10 @@ export default function Edit({ params }: any) {
                                             type="date"
                                             name="date"
                                             id="date"
-                                            defaultValue={row?.date.slice(0, 10)}
+                                            defaultValue={row?.date.slice(
+                                                0,
+                                                10
+                                            )}
                                             onChange={handleChange}
                                             style={{
                                                 border: "1px solid #bdbdbd",
@@ -371,7 +374,12 @@ export default function Edit({ params }: any) {
                                     >
                                         Save
                                     </Button>
-                                    <Button onClick={handleCancel} variant="outlined">Cancel</Button>
+                                    <Button
+                                        onClick={handleCancel}
+                                        variant="outlined"
+                                    >
+                                        Cancel
+                                    </Button>
                                 </Stack>
                             </>
                         ) : (

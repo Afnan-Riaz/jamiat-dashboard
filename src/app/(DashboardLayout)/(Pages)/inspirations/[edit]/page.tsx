@@ -45,23 +45,20 @@ const HiddenInput = styled("input")({
     width: 1,
 });
 const getData = async (id: string) => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/inspirations/${id}`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/profiles/inspirations/${id}`).then(
+        (response) => response.json()
+    );
     return data;
 };
 
 const setData = async (data: Inspiration) => {
-    const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/inspirations`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    ).then((response) => response.json());
+    const result = await fetch(`/api/profiles/inspirations`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while saving data");
 };
@@ -114,7 +111,7 @@ export default function Edit({ params }: any) {
             const formData = new FormData();
             formData.append("file", blobInfo.blob(), blobInfo.filename());
 
-            fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+            fetch(`/api/upload`, {
                 method: "POST",
                 body: formData,
             })
@@ -147,7 +144,7 @@ export default function Edit({ params }: any) {
         const formData = new FormData();
         formData.append("file", file);
 
-        fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+        fetch(`/api/upload`, {
             method: "POST",
             body: formData,
         })
@@ -176,7 +173,7 @@ export default function Edit({ params }: any) {
                 const formData = new FormData();
                 formData.append("file", file);
 
-                fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+                fetch(`/api/upload`, {
                     method: "POST",
                     body: formData,
                 })
@@ -219,7 +216,7 @@ export default function Edit({ params }: any) {
             if (fileState && fileState.type.startsWith("image/")) {
                 await uploadImage(fileState);
             }
-            if(isAlive){
+            if (isAlive) {
                 delete row.dod;
             }
             await setData(row);
@@ -376,7 +373,10 @@ export default function Edit({ params }: any) {
                                             name="dod"
                                             id="dod"
                                             disabled={isAlive}
-                                            defaultValue={row?.dod?.slice(0, 10)}
+                                            defaultValue={row?.dod?.slice(
+                                                0,
+                                                10
+                                            )}
                                             onChange={handleChange}
                                             style={{
                                                 border: "1px solid #bdbdbd",
@@ -392,7 +392,11 @@ export default function Edit({ params }: any) {
                                         />
                                         <FormControlLabel
                                             control={
-                                                <Checkbox onChange={()=>setIsAlive(!isAlive)} />
+                                                <Checkbox
+                                                    onChange={() =>
+                                                        setIsAlive(!isAlive)
+                                                    }
+                                                />
                                             }
                                             label="Alive"
                                         />
@@ -429,7 +433,12 @@ export default function Edit({ params }: any) {
                                     >
                                         Save
                                     </Button>
-                                    <Button onClick={handleCancel} variant="outlined">Cancel</Button>
+                                    <Button
+                                        onClick={handleCancel}
+                                        variant="outlined"
+                                    >
+                                        Cancel
+                                    </Button>
                                 </Stack>
                             </>
                         ) : (

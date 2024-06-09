@@ -19,9 +19,7 @@ import {
 } from "@tabler/icons-react";
 const icons = [IconFilePencil, IconUsersGroup, IconCalendarTime, IconBulb];
 const getData = async () => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/recent`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/recent`).then((response) => response.json());
     return data;
 };
 

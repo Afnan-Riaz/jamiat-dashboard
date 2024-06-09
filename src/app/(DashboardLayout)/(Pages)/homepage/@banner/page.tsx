@@ -44,16 +44,16 @@ const HiddenInput = styled("input")({
 });
 
 const getData = async () => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images/banners`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/media/images/banners`).then((response) =>
+        response.json()
+    );
     return data;
 };
 const uploadImage = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+    fetch(`/api/upload`, {
         method: "POST",
         body: formData,
     })
@@ -68,30 +68,24 @@ const uploadImage = async (file: File) => {
         });
 };
 const setData = async (data: GridRowModel) => {
-    const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images/banners`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    ).then((response) => response.json());
+    const result = await fetch(`/api/media/images/banners`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while saving data");
 };
 const deleteData = async (data: object) => {
-    const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/images/banners`,
-        {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    ).then((response) => response.json());
+    const result = await fetch(`/api/media/images/banners`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while deleting data");
 };

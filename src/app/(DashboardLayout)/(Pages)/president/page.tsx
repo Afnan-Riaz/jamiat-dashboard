@@ -36,23 +36,20 @@ const HiddenInput = styled("input")({
     width: 1,
 });
 const getData = async () => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/president`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/profiles/president`).then((response) =>
+        response.json()
+    );
     return data;
 };
 
 const setData = async (data: President) => {
-    const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/profiles/president`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    ).then((response) => response.json());
+    const result = await fetch(`/api/profiles/president`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while saving data");
 };
@@ -93,7 +90,7 @@ export default function President() {
         const formData = new FormData();
         formData.append("file", file);
 
-        fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+        fetch(`/api/upload`, {
             method: "POST",
             body: formData,
         })

@@ -22,14 +22,12 @@ import Image from "next/image";
 import BaseCard from "../../components/shared/BaseCard";
 
 const getData = async () => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/blogs`).then((response) => response.json());
     return data;
 };
 
 const deleteData = async (data: object) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/blogs`, {
+    const result = await fetch(`/api/blogs`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -211,52 +209,53 @@ export default function Blogs() {
             }}
         >
             <BaseCard title="Manage Blogs">
-            {dataFetched ? (
-                <>
-                    <DataGrid
-                        sx={{
-                            "& .MuiDataGrid-columnHeaderTitle": {
-                                fontWeight: "600",
-                            },
-                            height: "70vh",
-                        }}
-                        rows={rows}
-                        columns={columns}
-                        editMode="row"
-                        getRowSpacing={getRowSpacing}
-                        rowHeight={80}
-                        rowModesModel={rowModesModel}
-                        onRowModesModelChange={handleRowModesModelChange}
-                        columnBuffer={2}
-                        columnThreshold={2}
-                        slots={{
-                            toolbar: EditToolbar,
-                        }}
-                        slotProps={{
-                            toolbar: { setRows, setRowModesModel },
-                        }}
-                        getRowId={(row) => row._id.toString()}
-                    />
-                    {!!snackbar && (
-                        <Snackbar
-                            open
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "center",
+                {dataFetched ? (
+                    <>
+                        <DataGrid
+                            sx={{
+                                "& .MuiDataGrid-columnHeaderTitle": {
+                                    fontWeight: "600",
+                                },
+                                height: "70vh",
                             }}
-                            onClose={handleCloseSnackbar}
-                            autoHideDuration={1000}
-                        >
-                            <Alert
-                                {...snackbar}
+                            rows={rows}
+                            columns={columns}
+                            editMode="row"
+                            getRowSpacing={getRowSpacing}
+                            rowHeight={80}
+                            rowModesModel={rowModesModel}
+                            onRowModesModelChange={handleRowModesModelChange}
+                            columnBuffer={2}
+                            columnThreshold={2}
+                            slots={{
+                                toolbar: EditToolbar,
+                            }}
+                            slotProps={{
+                                toolbar: { setRows, setRowModesModel },
+                            }}
+                            getRowId={(row) => row._id.toString()}
+                        />
+                        {!!snackbar && (
+                            <Snackbar
+                                open
+                                anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "center",
+                                }}
                                 onClose={handleCloseSnackbar}
-                            />
-                        </Snackbar>
-                    )}
-                </>
-            ) : (
-                <Loading />
-            )}</BaseCard>
+                                autoHideDuration={1000}
+                            >
+                                <Alert
+                                    {...snackbar}
+                                    onClose={handleCloseSnackbar}
+                                />
+                            </Snackbar>
+                        )}
+                    </>
+                ) : (
+                    <Loading />
+                )}
+            </BaseCard>
         </Box>
     );
 }

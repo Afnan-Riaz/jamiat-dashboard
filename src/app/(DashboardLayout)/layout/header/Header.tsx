@@ -35,11 +35,9 @@ const Header = ({ toggleMobileSidebar }: ItemType) => {
     }));
     const handleLogout = async () => {
         setLoading(true);
-        await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/users/logout`).then(
-            (response) => {
-                if (response.status === 200) router.push("/login");
-            }
-        );
+        await fetch(`/api/users/logout`).then((response) => {
+            if (response.status === 200) router.push("/login");
+        });
         setLoading(false);
     };
     return (

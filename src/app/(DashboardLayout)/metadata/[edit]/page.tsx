@@ -26,14 +26,12 @@ interface Page {
 }
 
 const getData = async (id: string) => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/${id}`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/${id}`).then((response) => response.json());
     return data;
 };
 
 const setData = async (data: Page) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api`, {
+    const result = await fetch(`/api`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -86,7 +84,7 @@ export default function Edit({ params }: any) {
             const formData = new FormData();
             formData.append("file", blobInfo.blob(), blobInfo.filename());
 
-            fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+            fetch(`/api/upload`, {
                 method: "POST",
                 body: formData,
             })
@@ -126,7 +124,7 @@ export default function Edit({ params }: any) {
                 const formData = new FormData();
                 formData.append("file", file);
 
-                fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+                fetch(`/api/upload`, {
                     method: "POST",
                     body: formData,
                 })

@@ -44,16 +44,16 @@ const HiddenInput = styled("input")({
 });
 
 const getData = async () => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/books`
-    ).then((response) => response.json());
+    const data = await fetch(`/api/media/books`).then((response) =>
+        response.json()
+    );
     return data;
 };
 const uploadImage = async (file: File) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/upload`, {
+    fetch(`/api/upload`, {
         method: "POST",
         body: formData,
     })
@@ -68,30 +68,24 @@ const uploadImage = async (file: File) => {
         });
 };
 const setData = async (data: GridRowModel) => {
-    const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/books`,
-        {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    ).then((response) => response.json());
+    const result = await fetch(`/api/media/books`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while saving data");
 };
 const deleteData = async (data: object) => {
-    const result = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/media/books`,
-        {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        }
-    ).then((response) => response.json());
+    const result = await fetch(`/api/media/books`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+    }).then((response) => response.json());
     if (result.success) return result;
     throw new Error("Error while deleting data");
 };
@@ -369,68 +363,71 @@ export default function Book() {
             }}
         >
             <BaseCard title="Manage Books">
-            {dataFetched ? (
-                <>
-                    <DataGrid
-                        sx={{
-                            "& .MuiDataGrid-columnHeaderTitle": {
-                                fontWeight: "600",
-                            },
-                            height: "70vh",
-                        }}
-                        rows={rows}
-                        columns={columns}
-                        editMode="row"
-                        getRowSpacing={getRowSpacing}
-                        rowHeight={100}
-                        rowModesModel={rowModesModel}
-                        onRowModesModelChange={handleRowModesModelChange}
-                        onRowEditStop={handleRowEditStop}
-                        onCellEditStop={(params, event) => {
-                            if (
-                                params.reason !==
-                                GridCellEditStopReasons.enterKeyDown
-                            ) {
-                                return;
-                            }
-                            if (
-                                isKeyboardEvent(event) &&
-                                !event.ctrlKey &&
-                                !event.metaKey
-                            ) {
-                                event.defaultMuiPrevented = true;
-                            }
-                        }}
-                        processRowUpdate={processRowUpdate}
-                        onProcessRowUpdateError={handleProcessRowUpdateError}
-                        slots={{
-                            toolbar: EditToolbar,
-                        }}
-                        slotProps={{
-                            toolbar: { setRows, setRowModesModel },
-                        }}
-                        getRowId={(row) => row._id.toString()}
-                    />
-                    {!!snackbar && (
-                        <Snackbar
-                            open
-                            anchorOrigin={{
-                                vertical: "bottom",
-                                horizontal: "center",
+                {dataFetched ? (
+                    <>
+                        <DataGrid
+                            sx={{
+                                "& .MuiDataGrid-columnHeaderTitle": {
+                                    fontWeight: "600",
+                                },
+                                height: "70vh",
                             }}
-                            onClose={handleCloseSnackbar}
-                            autoHideDuration={6000}
-                        >
-                            <Alert
-                                {...snackbar}
+                            rows={rows}
+                            columns={columns}
+                            editMode="row"
+                            getRowSpacing={getRowSpacing}
+                            rowHeight={100}
+                            rowModesModel={rowModesModel}
+                            onRowModesModelChange={handleRowModesModelChange}
+                            onRowEditStop={handleRowEditStop}
+                            onCellEditStop={(params, event) => {
+                                if (
+                                    params.reason !==
+                                    GridCellEditStopReasons.enterKeyDown
+                                ) {
+                                    return;
+                                }
+                                if (
+                                    isKeyboardEvent(event) &&
+                                    !event.ctrlKey &&
+                                    !event.metaKey
+                                ) {
+                                    event.defaultMuiPrevented = true;
+                                }
+                            }}
+                            processRowUpdate={processRowUpdate}
+                            onProcessRowUpdateError={
+                                handleProcessRowUpdateError
+                            }
+                            slots={{
+                                toolbar: EditToolbar,
+                            }}
+                            slotProps={{
+                                toolbar: { setRows, setRowModesModel },
+                            }}
+                            getRowId={(row) => row._id.toString()}
+                        />
+                        {!!snackbar && (
+                            <Snackbar
+                                open
+                                anchorOrigin={{
+                                    vertical: "bottom",
+                                    horizontal: "center",
+                                }}
                                 onClose={handleCloseSnackbar}
-                            />
-                        </Snackbar>
-                    )}
-                </>
-            ) : (
-                <Loading />
-            )}</BaseCard>
+                                autoHideDuration={6000}
+                            >
+                                <Alert
+                                    {...snackbar}
+                                    onClose={handleCloseSnackbar}
+                                />
+                            </Snackbar>
+                        )}
+                    </>
+                ) : (
+                    <Loading />
+                )}
+            </BaseCard>
         </Box>
     );
 }

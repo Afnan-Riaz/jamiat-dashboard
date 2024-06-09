@@ -28,16 +28,14 @@ import BaseCard from "../components/shared/BaseCard";
 const ObjectId = mongoose.Types.ObjectId;
 
 const getData = async () => {
-    const data = await fetch(
-        `${process.env.NEXT_PUBLIC_DOMAIN}/api/users`
-    ).then(async (response) => {
+    const data = await fetch(`/api/users`).then(async (response) => {
         const data = await response.json();
         return { status: response.status, message: data.message };
     });
     return data;
 };
 const setData = async (data: GridRowModel) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/users`, {
+    const result = await fetch(`/api/users`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
@@ -48,7 +46,7 @@ const setData = async (data: GridRowModel) => {
     throw new Error("Error while saving data");
 };
 const deleteData = async (data: object) => {
-    const result = await fetch(`${process.env.NEXT_PUBLIC_DOMAIN}/api/users`, {
+    const result = await fetch(`/api/users`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
