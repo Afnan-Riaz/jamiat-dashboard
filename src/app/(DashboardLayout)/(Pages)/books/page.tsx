@@ -283,7 +283,7 @@ export default function Book() {
             ),
             renderCell: (params) => (
                 <Image
-                    src={`/images${params.value}`}
+                    src={`${process.env.NEXT_PUBLIC_CDN_PATH}/images${params.value}`}
                     alt="Image"
                     style={{
                         width: "100%",

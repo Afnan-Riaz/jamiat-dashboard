@@ -290,7 +290,7 @@ export default function Audio() {
                 <audio
                     style={{ width: "100%" }}
                     controls
-                    src={`/audio${params.value}`}
+                    src={`${process.env.NEXT_PUBLIC_CDN_PATH}/audio${params.value}`}
                 ></audio>
             ),
         },
