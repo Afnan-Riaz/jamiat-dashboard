@@ -2,7 +2,13 @@
 const os = require("os");
 const nextConfig = {
     images: {
-        domains: ["cdn.jamiat.org.pk"],
+        remotePatterns: [
+            {
+              protocol: 'https',
+              hostname: 'cdn.jamiat.org.pk',
+              port: '',
+            },
+        ],
     },
     async headers() {
         return [
