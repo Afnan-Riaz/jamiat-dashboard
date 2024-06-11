@@ -21,7 +21,6 @@ export async function POST(req: any) {
     const byteData = await file.arrayBuffer();
     const buffer = Buffer.from(byteData);
 
-    // Change this path to your CDN path
     const cdnPath = path.join('/var/www/assets', fileFolder, file.name);
     await writeFile(cdnPath, buffer);
 

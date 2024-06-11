@@ -1,35 +1,37 @@
 /** @type {import('next').NextConfig} */
 const os = require("os");
 const nextConfig = {
+    images: {
+        domains: ["cdn.jamiat.org.pk"],
+    },
     async headers() {
         return [
-          {
-            source: '/api/:path*',
-            headers: [
-              {
-                key: 'Access-Control-Allow-Credentials',
-                value: 'true',
-              },
-              {
-                key: 'Access-Control-Allow-Origin',
-                value: 'https://dashboard.jamiat.org.pk',
-              },
-              {
-                key: 'Access-Control-Allow-Methods',
-                value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
-              },
-              {
-                key: 'Access-Control-Allow-Headers',
-                value:
-                  'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
-              },
-            ],
-          },
+            {
+                source: "/api/:path*",
+                headers: [
+                    {
+                        key: "Access-Control-Allow-Credentials",
+                        value: "true",
+                    },
+                    {
+                        key: "Access-Control-Allow-Origin",
+                        value: "https://dashboard.jamiat.org.pk",
+                    },
+                    {
+                        key: "Access-Control-Allow-Methods",
+                        value: "GET,OPTIONS,PATCH,DELETE,POST,PUT",
+                    },
+                    {
+                        key: "Access-Control-Allow-Headers",
+                        value: "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+                    },
+                ],
+            },
         ];
-      },
-  compiler: {
-    styledComponents: true
-  },
+    },
+    compiler: {
+        styledComponents: true,
+    },
     webpack: (config, { dev, isServer, webpack, nextRuntime }) => {
         config.module.rules.push({
             test: /\.node$/,
